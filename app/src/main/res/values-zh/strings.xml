@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Simple Money Tracker</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">暂时没有设置</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_share">Edit Accounts</string>
+    <string name="menu_send">Send</string>
+    <string name="add_account">Add Account</string>
+    <string name="add">Add</string>
+    <string name="account_name">Account Name</string>
+    <string name="new_transaction">New Transaction</string>
+    <string name="edit_transaction">Edit Transaction</string>
+    <string name="category">Category</string>
+    <string name="account">Account</string>
+    <string name="done">Done</string>
+    <string name="equity">Equity</string>
+    <string name="drag_handle">Drag Handle</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="amount">Amount</string>
+    <string name="credit_income">Credit Income</string>
+    <string name="pay_expense">Pay Expense</string>
+    <string name="to_account">To Account</string>
+    <string name="from_account">From Account</string>
+    <string name="transfer_to">Transfer to</string>
+    <string name="all_transactions">All Transactions</string>
+    <string name="note">Note</string>
+    <string name="import_export">Import/Export</string>
+    <string name="export">Export</string>
+    <string name="import_bt">Import</string>
+</resources>

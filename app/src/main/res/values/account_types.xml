@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="account_types">
+        <item>Asset</item>
+        <item>Liability</item>
+        <item>Income</item>
+        <item>Expense</item>
+    </string-array>
+</resources>

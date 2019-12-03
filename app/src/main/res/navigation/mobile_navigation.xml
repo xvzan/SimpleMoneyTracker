@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.xvzan.simplemoneytracker.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_empty"
+        android:name="com.xvzan.simplemoneytracker.ui.home.EmptyFragment"
+        tools:layout="@layout/empty_layout" >
+        <action
+            android:id="@+id/action_nav_empty_to_nav_home"
+            app:destination="@id/nav_home"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_new_tran"
+        android:name="com.xvzan.simplemoneytracker.ui.newtransaction.NewTransactionDialog"
+        android:label="@string/new_transaction"
+        tools:layout="@layout/new_transaction_dialog" >
+        <action
+            android:id="@+id/action_nav_new_tran_to_nav_home"
+            app:destination="@id/nav_home"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_edit_tran"
+        android:name="com.xvzan.simplemoneytracker.ui.newtransaction.EditTransaction"
+        android:label="@string/edit_transaction"
+        tools:layout="@layout/new_transaction_dialog" >
+        <action
+            android:id="@+id/action_nav_edit_tran_to_nav_home"
+            app:destination="@id/nav_home"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="com.xvzan.simplemoneytracker.ui.share.ShareFragment"
+        android:label="@string/menu_share"
+        tools:layout="@layout/fragment_share">
+        <action
+            android:id="@+id/action_nav_share_to_nav_home"
+            app:destination="@id/nav_home"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

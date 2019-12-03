@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tsDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="15" />
+
+    <TextView
+        android:id="@+id/tsAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="15" />
+
+    <TextView
+        android:id="@+id/tsAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="14"
+        android:textAlignment="textEnd" />
+
+    <TextView
+        android:id="@+id/tsTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="13"
+        android:textAlignment="textEnd" />
+
+    <ImageButton
+        android:id="@+id/bt_ts_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="17"
+        android:contentDescription="@string/edit"
+        app:srcCompat="@drawable/ic_edit_black_24dp" />
+</LinearLayout>

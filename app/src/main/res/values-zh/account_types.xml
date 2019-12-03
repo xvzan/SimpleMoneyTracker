@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="account_types">
+        <item>资产</item>
+        <item>负债</item>
+        <item>收入</item>
+        <item>支出</item>
+    </string-array>
+</resources>
