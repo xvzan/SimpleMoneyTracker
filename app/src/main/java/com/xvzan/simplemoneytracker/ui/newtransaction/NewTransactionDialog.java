@@ -176,6 +176,12 @@ public class NewTransactionDialog extends Fragment {
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        am.requestFocus();
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     void setHintTextViews(){
         if(typeList.get(aU.getSelectedItemPosition())==-1||typeList.get(aB.getSelectedItemPosition())==-1){
             tU.setText(R.string.category);
