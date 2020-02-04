@@ -83,6 +83,7 @@ public class TotalManager {
                     case 0:
                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
                         recyclerView.setAdapter(adapter_single);
+                        adapter_single.notifyDataSetChanged();
                         recyclerView.scrollToPosition(adapter_single.getItemCount()-1);
                         break;
                     case 1:
