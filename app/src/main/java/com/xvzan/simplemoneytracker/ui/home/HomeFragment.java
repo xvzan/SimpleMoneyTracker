@@ -47,11 +47,6 @@ public class HomeFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(accstr);
         totalArray = new TotalArray(accstr);
         TotalManager.getInstance().setRecyclerView(layt, getContext(), totalArray, realmInstance, homeProgress);
-        //totalArray.chuai();
-        //layt.setLayoutManager(new LinearLayoutManager(getContext()));
-        //Adapter_Single adapter_single = new Adapter_Single(getActivity(),realmInstance);
-        //layt.setAdapter(adapter_single);
-        //layt.scrollToPosition(adapter_single.getItemCount()-1);
     }
 
     void showAll(){

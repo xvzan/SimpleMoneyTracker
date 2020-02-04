@@ -81,17 +81,12 @@ public class TotalManager {
                 //recyclerView.setLayoutManager(new LinearLayoutManager(context));
                 switch (inputMessage.what){
                     case 0:
-                        /*
-                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                        Adapter_Double adapter_double = new Adapter_Double(context,totalArray);
-                        recyclerView.setAdapter(adapter_double);
-                        recyclerView.scrollToPosition(adapter_double.getItemCount()-1);
-                         */
-                        break;
-                    case 1:
                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
                         recyclerView.setAdapter(adapter_single);
                         recyclerView.scrollToPosition(adapter_single.getItemCount()-1);
+                        break;
+                    case 1:
+                        adapter_single.notifyDataSetChanged();
                         homeProgress.setVisibility(View.INVISIBLE);
                         break;
                 }

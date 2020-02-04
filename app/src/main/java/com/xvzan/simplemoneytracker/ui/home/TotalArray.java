@@ -10,7 +10,7 @@ import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.Sort;
 
-public class TotalArray implements Runnable{
+public class TotalArray implements Runnable {
 
     private String accstr;
     private Realm realmInstance;
@@ -19,17 +19,23 @@ public class TotalArray implements Runnable{
     private TotalManager totalManager;
     private Long[] totalList;
     private int size;
+    private boolean totalCalculated = false;
 
-    TotalArray(String accs){
+    boolean totalReady() {
+        return totalCalculated;
+    }
+
+    TotalArray(String accs) {
+        totalCalculated = false;
         accstr = accs;
         totalManager = TotalManager.getInstance();
     }
 
-    TotalArray(Realm instance){
+    TotalArray(Realm instance) {
         realmInstance = instance;
         mTraList = realmInstance.where(mTra.class).findAllAsync().sort("mDate", Sort.ASCENDING);
         size = mTraList.size();
-        TotalManager.getInstance().arrayCompleteHandle(0,this);
+        TotalManager.getInstance().arrayCompleteHandle(0, this);
     }
 
     public Thread getCurrentThread() {
@@ -44,7 +50,7 @@ public class TotalArray implements Runnable{
         mCurrentThread = thread;
     }
 
-    String getAccstr(){
+    String getAccstr() {
         return accstr;
     }
 
@@ -57,28 +63,29 @@ public class TotalArray implements Runnable{
             if (Thread.currentThread().interrupted()) {
                 throw new InterruptedException();
             }
-            try(Realm realm = Realm.getDefaultInstance()){
-                mTraList = Realm.getDefaultInstance().where(mTra.class).equalTo("accU.aname", accstr).or().equalTo("accB.aname",accstr).findAll().sort("mDate", Sort.ASCENDING);
+            try (Realm realm = Realm.getDefaultInstance()) {
+                mTraList = Realm.getDefaultInstance().where(mTra.class).equalTo("accU.aname", accstr).or().equalTo("accB.aname", accstr).findAll().sort("mDate", Sort.ASCENDING);
                 if (Thread.currentThread().interrupted()) {
                     throw new InterruptedException();
                 }
                 totalList = new Long[mTraList.size()];
                 size = mTraList.size();
+                TotalManager.getInstance().arrayCompleteHandle(0, this);
                 long i = 0;
-                for (int a=0;a<mTraList.size();a++) {
+                for (int a = 0; a < mTraList.size(); a++) {
                     if (Thread.currentThread().interrupted()) {
                         throw new InterruptedException();
                     }
-                    if(mTraList.get(a).getAccU().getAname().matches(accstr)){
-                        i+=mTraList.get(a).getuAm();
+                    if (mTraList.get(a).getAccU().getAname().matches(accstr)) {
+                        i += mTraList.get(a).getuAm();
+                    } else {
+                        i += mTraList.get(a).getbAm();
                     }
-                    else {
-                        i+=mTraList.get(a).getbAm();
-                    }
-                    totalList[a]=i;
+                    totalList[a] = i;
                 }
             }
-            TotalManager.getInstance().arrayCompleteHandle(1,this);
+            totalCalculated = true;
+            TotalManager.getInstance().arrayCompleteHandle(1, this);
         } catch (InterruptedException e1) {
             TotalManager.getInstance().threads.remove(getCurrentThread());
             Thread.interrupted();
@@ -100,7 +107,7 @@ public class TotalArray implements Runnable{
          */
     }
 
-    void findCat(){
+    void findCat() {
         //mTraList = realmInstance.where(mTra.class).equalTo("accU.aname", accstr).or().equalTo("accB.aname",accstr).findAll().sort("mDate", Sort.ASCENDING);
         totalList = new Long[mTraList.size()];
         /*
@@ -116,42 +123,42 @@ public class TotalArray implements Runnable{
         }
 
          */
-        TotalManager.getInstance().arrayCompleteHandle(1,this);
+        TotalManager.getInstance().arrayCompleteHandle(1, this);
     }
 
-    void findAll(){
+    void findAll() {
         //mTraList = realmInstance.where(mTra.class).findAllAsync().sort("mDate", Sort.ASCENDING);
         totalList = null;
-        TotalManager.getInstance().arrayCompleteHandle(0,this);
+        TotalManager.getInstance().arrayCompleteHandle(0, this);
     }
 
-    int getSize(){
+    int getSize() {
         return size;
     }
 
-    mTra getMT(int position){
+    mTra getMT(int position) {
         return mTraList.get(position);
     }
 
-    Long getTotalA(int position){
-        if(totalList==null)
+    Long getTotalA(int position) {
+        if (totalList == null)
             return null;
         return totalList[position];
     }
 
-    Date getDate(int position){
+    Date getDate(int position) {
         return mTraList.get(position).getmDate();
     }
 
-    String getAccUN(int position){
+    String getAccUN(int position) {
         return mTraList.get(position).getAccU().getAname();
     }
 
-    String getAccBN(int position){
+    String getAccBN(int position) {
         return mTraList.get(position).getAccB().getAname();
     }
 
-    Long getUAM(int position){
+    Long getUAM(int position) {
         return mTraList.get(position).getuAm();
     }
 }
