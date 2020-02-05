@@ -30,19 +30,17 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
     private NumberFormat numberFormat;
     private double d_Double;
     private OrderedRealmCollection<mTra> mTraList;
-    //private Long[] totalArray;
-    private TotalArray totalArray;
-    private String accstr;
+    Long[] longs;
+    String accstr;
     private Realm realminstance;
 
-    Adapter_Single(Context context, TotalArray array, Realm instance) {
+    Adapter_Single(Context context, String str, Realm instance) {
         this.mContext = context;
-        accstr = array.getAccstr();
+        accstr = str;
         numberFormat = NumberFormat.getCurrencyInstance();
         d_Double = Math.pow(10d, (double) Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits());
         realminstance = instance;
         mTraList = realminstance.where(mTra.class).equalTo("accU.aname", accstr).or().equalTo("accB.aname", accstr).findAll().sort("mDate", Sort.ASCENDING);
-        totalArray = array;
     }
 
     @Override
@@ -63,12 +61,12 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
             if (mTraList.get(position).getbAm() < 0)
                 holder.tsAmount.setTextColor(Color.RED);
         }
-        holder.tsDate.setText(sdf.format(mTraList.get(position).getmDate()));
-        if (totalArray.totalReady()) {
-            if (totalArray.getTotalA(position) < 0)
+        if (longs != null && longs[position] != null) {
+            if (longs[position] < 0)
                 holder.tsTotal.setTextColor(Color.RED);
-            holder.tsTotal.setText(numberFormat.format(totalArray.getTotalA(position) / d_Double));
+            holder.tsTotal.setText(numberFormat.format(longs[position] / d_Double));
         }
+        holder.tsDate.setText(sdf.format(mTraList.get(position).getmDate()));
         holder.tsEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +82,7 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
 
     @Override
     public int getItemCount() {
-        return totalArray.getSize();
+        return mTraList.size();
     }
 
     void setTotalArray() {

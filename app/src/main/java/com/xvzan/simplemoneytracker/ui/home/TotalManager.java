@@ -6,87 +6,66 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import io.realm.Realm;
-
 public class TotalManager {
     private static final int KEEP_ALIVE_TIME = 1;
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     private final ThreadPoolExecutor mThreadPool;
-    private final BlockingQueue<Runnable> mWorkQueue;
+    //private final BlockingQueue<Runnable> mWorkQueue = new LinkedBlockingQueue<Runnable>();
     private Adapter_Single adapter_single;
     ArrayList<Thread> threads;
-    private RecyclerView recyclerView;
     private ProgressBar homeProgress;
-    private Context context;
     private Handler mHandler;
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT;
     private static TotalManager sInstance = null;
-    private Realm realm;
 
     static {
         KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
         sInstance = new TotalManager();
     }
 
-    static TotalManager getInstance(){
+    static TotalManager getInstance() {
         return sInstance;
     }
 
-    void setRecyclerView(RecyclerView rv,Context c,TotalArray array,Realm instance,ProgressBar home){
-        recyclerView = rv;
-        context = c;
-        realm = instance;
+    void setRecyclerView(Adapter_Single adapterSingle, TotalArray array, ProgressBar home) {
+        adapter_single = adapterSingle;
         homeProgress = home;
         mThreadPool.execute(array);
-        adapter_single = new Adapter_Single(context,array,realm);
     }
 
-    void setDoubleView(RecyclerView rv,Context c){
-        recyclerView = rv;
-        context = c;
-    }
-
-    void arrayCompleteHandle(int state, TotalArray totalArray){
-        Message complete = mHandler.obtainMessage(state,totalArray);
+    void arrayCompleteHandle(int state, Long[] longArray) {
+        Message complete = mHandler.obtainMessage(state, longArray);
         complete.sendToTarget();
     }
 
     static void cancelAll() {
-        for (Thread t:sInstance.threads
-             ) {
+        for (Thread t : sInstance.threads
+        ) {
             t.interrupt();
         }
     }
 
-    private TotalManager(){
-        mWorkQueue = new LinkedBlockingQueue<Runnable>();
+    private TotalManager() {
         threads = new ArrayList<>();
-        mThreadPool = new ThreadPoolExecutor(NUMBER_OF_CORES, NUMBER_OF_CORES, KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, mWorkQueue);
+        mThreadPool = new ThreadPoolExecutor(NUMBER_OF_CORES, NUMBER_OF_CORES, KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, new LinkedBlockingQueue<Runnable>());
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message inputMessage) {
-                TotalArray totalArray = (TotalArray) inputMessage.obj;
-                //recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                switch (inputMessage.what){
+                Long[] longs = (Long[]) inputMessage.obj;
+                switch (inputMessage.what) {
                     case 0:
-                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                        recyclerView.setAdapter(adapter_single);
-                        adapter_single.notifyDataSetChanged();
-                        recyclerView.scrollToPosition(adapter_single.getItemCount()-1);
                         break;
                     case 1:
+                        adapter_single.longs = longs;
                         adapter_single.notifyDataSetChanged();
                         homeProgress.setVisibility(View.INVISIBLE);
                         break;

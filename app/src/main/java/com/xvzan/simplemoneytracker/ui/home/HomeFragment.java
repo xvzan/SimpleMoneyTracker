@@ -30,32 +30,35 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         realmInstance = Realm.getDefaultInstance();
         layt = root.findViewById(R.id.traRV);
-        accstr = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("nowAccount","");
+        accstr = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("nowAccount", "");
         TotalManager.cancelAll();
         homeProgress = root.findViewById(R.id.homeProgress);
-        if(accstr.matches(""))
+        if (accstr.matches(""))
             showAll();
         else
             showCat();
-        //TotalArray array = new TotalArray(accstr,realmInstance);
-        //TotalManager.getInstance().setRecyclerView(layt, getContext(), array);
         return root;
     }
 
-    void showCat(){
+    void showCat() {
         homeProgress.setVisibility(View.VISIBLE);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(accstr);
-        totalArray = new TotalArray(accstr);
-        TotalManager.getInstance().setRecyclerView(layt, getContext(), totalArray, realmInstance, homeProgress);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(accstr);
+        layt.setLayoutManager(new LinearLayoutManager(getContext()));
+        Adapter_Single adapter_single = new Adapter_Single(getActivity(), accstr, realmInstance);
+        layt.setAdapter(adapter_single);
+        int i = adapter_single.getItemCount();
+        layt.scrollToPosition(i - 1);
+        totalArray = new TotalArray(accstr, i);
+        TotalManager.getInstance().setRecyclerView(adapter_single, totalArray, homeProgress);
     }
 
-    void showAll(){
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.all_transactions);
+    void showAll() {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.all_transactions);
         layt.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter_Double adapter_double = new Adapter_Double(getActivity(),realmInstance);
+        Adapter_Double adapter_double = new Adapter_Double(getActivity(), realmInstance);
         layt.setAdapter(adapter_double);
         homeProgress.setVisibility(View.INVISIBLE);
-        layt.scrollToPosition(adapter_double.getItemCount()-1);
+        layt.scrollToPosition(adapter_double.getItemCount() - 1);
     }
 
     @Override
