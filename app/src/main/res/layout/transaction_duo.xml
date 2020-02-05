@@ -40,5 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="24"
         android:contentDescription="@string/edit"
-        app:srcCompat="@drawable/ic_edit_black_24dp" />
+        android:tint="?attr/colorControlNormal"
+        app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
 </LinearLayout>
