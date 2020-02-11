@@ -1,6 +1,7 @@
 package com.xvzan.simplemoneytracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -47,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
         super.onCreate(savedInstanceState);
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().name("smt.realm").build();
-        //Realm realm = Realm.getInstance(config);
         setContentView(R.layout.activity_main);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -145,12 +145,6 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -190,6 +184,10 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
                     ImportDialogfragment importDialogfragment = new ImportDialogfragment();
                     importDialogfragment.show(getSupportFragmentManager(),"import_dialog");
                 }
+                return true;
+            case R.id.action_balances:
+                Intent intent = new Intent(this,BalanceActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

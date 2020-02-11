@@ -17,7 +17,7 @@ public class TotalManager {
     private final ThreadPoolExecutor mThreadPool;
     //private final BlockingQueue<Runnable> mWorkQueue = new LinkedBlockingQueue<Runnable>();
     private Adapter_Single adapter_single;
-    ArrayList<Thread> threads;
+    public ArrayList<Thread> threads;
     private ProgressBar homeProgress;
     private Handler mHandler;
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT;
@@ -28,7 +28,7 @@ public class TotalManager {
         sInstance = new TotalManager();
     }
 
-    static TotalManager getInstance() {
+    public static TotalManager getInstance() {
         return sInstance;
     }
 
@@ -39,6 +39,11 @@ public class TotalManager {
     }
 
     void arrayCompleteHandle(int state, Long[] longArray) {
+        Message complete = mHandler.obtainMessage(state, longArray);
+        complete.sendToTarget();
+    }
+
+    public void sumCompleteHandle(int state, ArrayList longArray) {
         Message complete = mHandler.obtainMessage(state, longArray);
         complete.sendToTarget();
     }
@@ -56,11 +61,11 @@ public class TotalManager {
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message inputMessage) {
-                Long[] longs = (Long[]) inputMessage.obj;
                 switch (inputMessage.what) {
                     case 0:
                         break;
                     case 1:
+                        Long[] longs = (Long[]) inputMessage.obj;
                         adapter_single.longs = longs;
                         adapter_single.notifyDataSetChanged();
                         homeProgress.setVisibility(View.INVISIBLE);

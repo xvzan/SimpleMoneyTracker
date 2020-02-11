@@ -31,7 +31,7 @@ public class Adapter_Double extends RecyclerView.Adapter <Adapter_Double.DoubleT
     private NumberFormat numberFormat;
     private double d_Double;
     private final OrderedRealmCollection<mTra> mTraList;
-    private RecyclerView recyclerView;
+    //private RecyclerView recyclerView;
     private Realm realminstance;
 
     Adapter_Double(Context context, Realm instance){

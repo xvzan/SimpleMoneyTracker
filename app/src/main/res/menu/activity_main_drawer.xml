@@ -5,19 +5,16 @@
 
     <group
         android:id="@+id/groupA"
-        android:checkableBehavior="single">
-    </group>
+        android:checkableBehavior="single"></group>
 
     <group
         android:id="@+id/groupB"
         android:checkableBehavior="single">
-        <item android:title="Communicate">
-            <item
-                android:orderInCategory="2"
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share" />
-        </item>
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:orderInCategory="2"
+            android:title="@string/menu_share" />
     </group>
 
 </menu>

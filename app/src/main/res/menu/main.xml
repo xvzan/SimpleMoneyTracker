@@ -6,4 +6,10 @@
         android:orderInCategory="100"
         android:title="@string/import_export"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_balances"
+        android:icon="@drawable/ic_assignment_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/balances"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -70,9 +70,6 @@ public class ShareFragment extends Fragment implements StartDragListener{
         return root;
     }
 
-    public void setAlvg(){
-    }
-
     @Override
     public void requestDrag(RecyclerView.ViewHolder viewHolder) {
         touchHelper.startDrag(viewHolder);
