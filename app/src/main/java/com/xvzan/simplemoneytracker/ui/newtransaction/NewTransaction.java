@@ -37,7 +37,7 @@ import java.util.Locale;
 import io.realm.Realm;
 import io.realm.Sort;
 
-public class NewTransactionDialog extends Fragment {
+public class NewTransaction extends Fragment {
 
     private List<String> nameList;
     private Spinner aU;

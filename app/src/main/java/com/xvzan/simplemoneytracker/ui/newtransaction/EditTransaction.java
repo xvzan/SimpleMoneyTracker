@@ -114,6 +114,12 @@ public class EditTransaction extends Fragment {
             @Override
             public void onClick(View v) {
                 DatePickerDialog dpd = new DatePickerDialog(getContext());
+                dpd.getDatePicker().init(cld.get(Calendar.YEAR), cld.get(Calendar.MONTH), cld.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+                    @Override
+                    public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+
+                    }
+                });
                 dpd.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

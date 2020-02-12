@@ -1,5 +1,6 @@
 package com.xvzan.simplemoneytracker.ui.balances;
 
+import android.graphics.Color;
 import android.icu.util.Currency;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,11 +33,16 @@ public class Adapter_B2 extends RecyclerView.Adapter<Adapter_B2.B2_Holder> {
     public void onBindViewHolder(@NonNull B2_Holder holder, int position) {
         if (b2_calc.pairs.get(position).noLong) {
             holder.tvName.setText(b2_calc.pairs.get(position).string);
+            holder.tvSum.setText("");
         } else {
             if (b2_calc.pairs.get(position).isTotal)
                 holder.tvName.setText(b2_calc.pairs.get(position).string);
             else
                 holder.tvName.setText("   " + b2_calc.pairs.get(position).string);
+            if (b2_calc.pairs.get(position).aLong < 0)
+                holder.tvSum.setTextColor(Color.RED);
+            else
+                holder.tvSum.setTextColor(holder.tvName.getTextColors());
             holder.tvSum.setText(numberFormat.format(b2_calc.pairs.get(position).aLong / d_Double));
         }
     }
