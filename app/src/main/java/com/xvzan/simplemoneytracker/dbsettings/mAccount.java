@@ -15,41 +15,61 @@ public class mAccount extends RealmObject {
     //@PrimaryKey
     private String aname;//Realm不允许编辑PrimaryKey，为了编辑名称，只能取消PrimaryKey标注
 
-    public void setAname(String name){
-        aname=name;
+    public void setAname(String name) {
+        aname = name;
     }
-    public void setAType(int tts){
-        switch(tts){
+
+    public void setAType(int tts) {
+        acct = tts;
+        switch (tts) {
             case 0://Asset
-                bl1=false;
-                bl2=true;
+                bl1 = false;
+                bl2 = true;
                 break;
             case 1://Liability
-            case 4://Equity
-                bl1=false;
-                bl2=false;
+                //case 4://Equity
+                bl1 = false;
+                bl2 = false;
                 break;
             case 2://Income
-                bl1=true;
-                bl2=false;
+                bl1 = true;
+                bl2 = false;
                 break;
             case 3://Expense
-                bl1=true;
-                bl2=true;
+                bl1 = true;
+                bl2 = true;
                 break;
             default:
-                    return;
+                return;
         }
-        acct=tts;
     }
-    public String getAname(){return aname;}
-    public int getAcct(){return acct;}
-    public boolean getBl1(){return bl1;}
-    public boolean getBl2(){return bl2;}
-    public void setOrder(int i){
-        order=i;
+
+    public String getAname() {
+        return aname;
     }
+
+    public int getAcct() {
+        return acct;
+    }
+
+    public boolean getBl1() {
+        return bl1;
+    }
+
+    public boolean getBl2() {
+        return bl2;
+    }
+
+    public void setOrder(int i) {
+        order = i;
+    }
+
     //public boolean getXOR(){return bl1^bl2;}
-    public void setEditme(){editme = true;}
-    public void meEdited(){editme = false;}
+    public void setEditme() {
+        editme = true;
+    }
+
+    public void meEdited() {
+        editme = false;
+    }
 }

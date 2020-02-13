@@ -2,68 +2,93 @@ package com.xvzan.simplemoneytracker.dbsettings;
 
 
 import java.util.Date;
+
 import io.realm.RealmObject;
 
-public class mTra extends RealmObject{
+public class mTra extends RealmObject {
     private boolean editMe;
     private mAccount accU;
     private mAccount accB;
     private long deltaAmount;
     private long uAm;
     private long bAm;
-    Date mDate;
+    private Date mDate;
     private String mNote;
 
-    public void allSet(mAccount u,mAccount b,long am,Date d){
-        accU=u;
-        accB=b;
-        deltaAmount=am;
+    public void allSet(mAccount u, mAccount b, long am, Date d) {
+        accU = u;
+        accB = b;
+        deltaAmount = am;
         setAllAmount();
-        mDate=d;
+        mDate = d;
     }
 
-    public void setAllAmount(){
-        if(accU.getBl1()||accU.getBl2()||(accB.getBl1()&&accB.getBl2())){
-            uAm=deltaAmount;
-        }
-        else {
-            uAm=-deltaAmount;
-            if(accB.getAcct()==4){
-                uAm=-uAm;
+    public void setAllAmount() {
+        if (accB.getAcct() == 4) {
+            uAm = deltaAmount;
+            if (accU.getBl1() && !accU.getBl2()) {
+                bAm = -deltaAmount;
+            } else {
+                bAm = deltaAmount;
             }
+            return;
         }
-        bAm=(accU.getBl2()^accB.getBl2())?uAm:-uAm;
+        if (accU.getAcct() == 4) {
+            if (accB.getBl1() && accB.getBl2())
+                bAm = deltaAmount;
+            else
+                bAm = -deltaAmount;
+            if (accB.getBl1())
+                uAm = deltaAmount;
+            else
+                uAm = -deltaAmount;
+            return;
+        }
+        if (accU.getBl1() || accU.getBl2() || (accB.getBl1() && accB.getBl2())) {
+            uAm = deltaAmount;
+        } else {
+            uAm = -deltaAmount;
+        }
+        bAm = (accU.getBl2() ^ accB.getBl2()) ? uAm : -uAm;
     }
 
-    public void setmNote(String note){
+    public void setmNote(String note) {
         mNote = note;
     }
 
-    public mAccount getAccU(){
+    public mAccount getAccU() {
         return accU;
     }
 
-    public mAccount getAccB(){
+    public mAccount getAccB() {
         return accB;
     }
 
-    public Date getmDate(){
+    public Date getmDate() {
         return mDate;
     }
 
-    public long getuAm(){
+    public long getuAm() {
         return uAm;
     }
 
-    public long getbAm(){
+    public long getbAm() {
         return bAm;
     }
 
-    public long getDeltaAmount(){return deltaAmount;}
+    public long getDeltaAmount() {
+        return deltaAmount;
+    }
 
-    public String getmNote() {return mNote;}
+    public String getmNote() {
+        return mNote;
+    }
 
-    public void setEditme(){editMe = true;}
+    public void setEditme() {
+        editMe = true;
+    }
 
-    public void meEdited(){editMe = false;}
+    public void meEdited() {
+        editMe = false;
+    }
 }

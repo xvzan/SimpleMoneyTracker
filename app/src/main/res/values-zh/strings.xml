@@ -33,4 +33,7 @@
     <string name="import_export">Import/Export</string>
     <string name="export">Export</string>
     <string name="import_bt">Import</string>
+    <string name="calculating">Calculating</string>
+    <string name="balances">Balances</string>
+    <string name="text_switch">Switch</string>
 </resources>

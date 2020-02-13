@@ -59,23 +59,23 @@ public class EditTransaction extends Fragment {
         final View root = inflater.inflate(R.layout.new_transaction_dialog, container, false);
         realminstance = Realm.getDefaultInstance();
         realminstance.beginTransaction();
-        myTran = realminstance.where(mTra.class).equalTo("editMe",true).findFirst();
+        myTran = realminstance.where(mTra.class).equalTo("editMe", true).findFirst();
         myTran.meEdited();
         realminstance.commitTransaction();
         cld = Calendar.getInstance();
-        aU=root.findViewById(R.id.spn_nt_aU);
-        aB=root.findViewById(R.id.spn_nt_aB);
-        tU=root.findViewById(R.id.tv_nt_aU);
-        tB=root.findViewById(R.id.tv_nt_aB);
+        aU = root.findViewById(R.id.spn_nt_aU);
+        aB = root.findViewById(R.id.spn_nt_aB);
+        tU = root.findViewById(R.id.tv_nt_aU);
+        tB = root.findViewById(R.id.tv_nt_aB);
         nameList = new ArrayList<>();
         nameList.add("");
         typeList = new ArrayList<>();
         typeList.add(-1);
-        for (mAccount ma : realminstance.where(mAccount.class).findAll().sort("order", Sort.ASCENDING)){
+        for (mAccount ma : realminstance.where(mAccount.class).findAll().sort("order", Sort.ASCENDING)) {
             nameList.add(ma.getAname());
             typeList.add(ma.getAcct());
         }
-        ArrayAdapter<String> maaa = new ArrayAdapter<>(getContext(),R.layout.support_simple_spinner_dropdown_item,nameList);
+        ArrayAdapter<String> maaa = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, nameList);
         aU.setAdapter(maaa);
         aB.setAdapter(maaa);
         AdapterView.OnItemSelectedListener spln = new AdapterView.OnItemSelectedListener() {
@@ -99,15 +99,15 @@ public class EditTransaction extends Fragment {
         am.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(),0);
+                if (!hasFocus) {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         });
         dt = root.findViewById(R.id.bt_nt_Date);
         tm = root.findViewById(R.id.bt_nt_Time);
-        am.setText(myTran.getDeltaAmount()+"");
+        am.setText(myTran.getDeltaAmount() + "");
         dt.setText(DateFormat.getDateInstance().format(cld.getTime()));
         tm.setText(DateFormat.getTimeInstance().format(cld.getTime()));
         dt.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class EditTransaction extends Fragment {
                 dpd.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        cld.set(year,month,dayOfMonth);
+                        cld.set(year, month, dayOfMonth);
                         dt.setText(DateFormat.getDateInstance().format(cld.getTime()));
                     }
                 });
@@ -133,13 +133,14 @@ public class EditTransaction extends Fragment {
         tm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new TimePickerDialog(getContext(),new TimePickerDialog.OnTimeSetListener() {
+                new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        cld.set(Calendar.HOUR_OF_DAY, hourOfDay);cld.set(Calendar.MINUTE,minute);
+                        cld.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        cld.set(Calendar.MINUTE, minute);
                         tm.setText(DateFormat.getTimeInstance().format(cld.getTime()));
                     }
-                },cld.get(Calendar.HOUR_OF_DAY),cld.get(Calendar.MINUTE),true).show();
+                }, cld.get(Calendar.HOUR_OF_DAY), cld.get(Calendar.MINUTE), true).show();
             }
         });
         note = root.findViewById(R.id.et_nt_note);
@@ -150,18 +151,18 @@ public class EditTransaction extends Fragment {
             public void onClick(View v) {
                 String amstr = am.getText().toString();
                 long amint;
-                if(amstr.matches("")) return;
-                if(amstr.contains("."))
-                    amint = (long) (Double.parseDouble(amstr)*Math.pow(10d,(double) Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits()));
+                if (amstr.matches("")) return;
+                if (amstr.contains("."))
+                    amint = (long) (Double.parseDouble(amstr) * Math.pow(10d, (double) Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits()));
                 else
                     amint = Long.parseLong(amstr);
-                if(aU.getSelectedItemPosition()==0||aB.getSelectedItemPosition()==0||aU.getSelectedItemPosition()==aB.getSelectedItemPosition())
+                if (aU.getSelectedItemPosition() == 0 || aB.getSelectedItemPosition() == 0 || aU.getSelectedItemPosition() == aB.getSelectedItemPosition())
                     return;
                 String tNote = note.getText().toString();
-                mAccount uu = realminstance.where(mAccount.class).equalTo("aname",nameList.get(aU.getSelectedItemPosition())).findFirst();
-                mAccount bb = realminstance.where(mAccount.class).equalTo("aname",nameList.get(aB.getSelectedItemPosition())).findFirst();
+                mAccount uu = realminstance.where(mAccount.class).equalTo("aname", nameList.get(aU.getSelectedItemPosition())).findFirst();
+                mAccount bb = realminstance.where(mAccount.class).equalTo("aname", nameList.get(aB.getSelectedItemPosition())).findFirst();
                 realminstance.beginTransaction();
-                myTran.allSet(uu,bb,amint,cld.getTime());
+                myTran.allSet(uu, bb, amint, cld.getTime());
                 myTran.setmNote(tNote);
                 realminstance.commitTransaction();
                 Navigation.findNavController(root).navigate(R.id.action_nav_edit_tran_to_nav_home);
@@ -177,23 +178,32 @@ public class EditTransaction extends Fragment {
                 Navigation.findNavController(root).navigate(R.id.action_nav_edit_tran_to_nav_home);
             }
         });
+        ImageButton ib_sw = root.findViewById(R.id.ib_switch);
+        ib_sw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int temp = aU.getSelectedItemPosition();
+                aU.setSelection(aB.getSelectedItemPosition());
+                aB.setSelection(temp);
+            }
+        });
         return root;
     }
 
-    void setHintTextViews(){
-        if(typeList.get(aU.getSelectedItemPosition())==-1||typeList.get(aB.getSelectedItemPosition())==-1){
+    void setHintTextViews() {
+        if (typeList.get(aU.getSelectedItemPosition()) == -1 || typeList.get(aB.getSelectedItemPosition()) == -1) {
             tU.setText(R.string.category);
             tB.setText(R.string.account);
             return;
         }
-        switch (typeList.get(aB.getSelectedItemPosition())){
+        switch (typeList.get(aB.getSelectedItemPosition())) {
             case 2:
             case 3:
                 tU.setText(R.string.transfer_to);
                 tB.setText(R.string.from_account);
                 break;
             default:
-                switch (typeList.get(aU.getSelectedItemPosition())){
+                switch (typeList.get(aU.getSelectedItemPosition())) {
                     case 2:
                         tU.setText(R.string.credit_income);
                         tB.setText(R.string.to_account);
