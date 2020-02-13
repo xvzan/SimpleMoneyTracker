@@ -10,12 +10,11 @@
         android:id="@+id/homeProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
         android:foregroundGravity="center_vertical|center|center_horizontal"
         android:indeterminateOnly="true"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/lay_transactions"
         app:layout_constraintEnd_toEndOf="@+id/lay_transactions"
-        app:layout_constraintStart_toStartOf="@+id/lay_transactions"
         app:layout_constraintTop_toTopOf="@+id/lay_transactions" />
 
     <LinearLayout

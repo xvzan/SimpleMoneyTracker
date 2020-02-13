@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,9 +40,9 @@ public class ImportDialogfragment extends DialogFragment {
         tva = view.findViewById(R.id.tv_import_acc);
         tvt = view.findViewById(R.id.tv_import_trans);
         bti = view.findViewById(R.id.bt_import);
-        csvA = new File(getContext().getExternalFilesDir(null),"import" + File.separator + "accounts");
-        csvT = new File(getContext().getExternalFilesDir(null),"import" + File.separator + "transactions");
-        if(csvA.exists()){
+        csvA = new File(getContext().getExternalFilesDir(null), "import" + File.separator + "accounts");
+        csvT = new File(getContext().getExternalFilesDir(null), "import" + File.separator + "transactions");
+        if (csvA.exists()) {
             tva.setText("Import accounts from :" + csvA.getAbsolutePath());
             bti.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -49,32 +50,30 @@ public class ImportDialogfragment extends DialogFragment {
                     importCSV();
                 }
             });
-        }
-        else {
-            tva.setText(csvA.getAbsolutePath()+" not found!");
+        } else {
+            tva.setText(csvA.getAbsolutePath() + " not found!");
             tva.setTextColor(Color.RED);
         }
-        if (csvT.exists()){
+        if (csvT.exists()) {
             tvt.setText("Import transactions from : " + csvT.getAbsolutePath());
-        }
-        else {
+        } else {
             tvt.setText(csvT.getAbsolutePath() + " not found");
             tvt.setTextColor(Color.RED);
         }
         return view;
     }
 
-    private void importCSV(){
+    private void importCSV() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        try (Realm realm = Realm.getDefaultInstance()){
+        try (Realm realm = Realm.getDefaultInstance()) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(csvA));
                 String line;
                 int s = 0;
-                AddAccountDialogFragment.addAccountListener listener = (AddAccountDialogFragment.addAccountListener)getActivity();
-                while ((line=bufferedReader.readLine())!=null){
+                AddAccountDialogFragment.addAccountListener listener = (AddAccountDialogFragment.addAccountListener) getActivity();
+                while ((line = bufferedReader.readLine()) != null) {
                     String[] item = line.split("\t");
-                    mAccount ma=new mAccount();
+                    mAccount ma = new mAccount();
                     ma.setAname(item[0]);
                     ma.setAType(Integer.parseInt(item[1]));
                     ma.setOrder(s);
@@ -85,18 +84,17 @@ public class ImportDialogfragment extends DialogFragment {
                 }
                 listener.onAccountsEdited();
                 csvA.delete();
-                if(csvT.exists()){
+                if (csvT.exists()) {
                     bufferedReader = new BufferedReader(new FileReader(csvT));
-                    while ((line=bufferedReader.readLine())!=null){
+                    while ((line = bufferedReader.readLine()) != null) {
                         String[] item = line.split("\t");
-                        mAccount uu = realm.where(mAccount.class).equalTo("aname",item[2]).findFirst();
-                        mAccount bb = realm.where(mAccount.class).equalTo("aname",item[1]).findFirst();
+                        mAccount uu = realm.where(mAccount.class).equalTo("aname", item[2]).findFirst();
+                        mAccount bb = realm.where(mAccount.class).equalTo("aname", item[1]).findFirst();
                         mTra ts = new mTra();
-                        ts.allSet(uu,bb,Long.parseLong(item[3]),sdf.parse(item[0]));
-                        if(item.length==5){
+                        ts.allSet(uu, bb, Long.parseLong(item[3]), sdf.parse(item[0]));
+                        if (item.length == 5) {
                             ts.setmNote(item[4]);
-                        }
-                        else {
+                        } else {
                             ts.setmNote("");
                         }
                         realm.beginTransaction();
@@ -105,10 +103,11 @@ public class ImportDialogfragment extends DialogFragment {
                     }
                     csvT.delete();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        Toast.makeText(getContext(), "Imported", Toast.LENGTH_SHORT).show();
         getDialog().dismiss();
     }
 }

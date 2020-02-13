@@ -15,17 +15,21 @@ import io.realm.Sort;
 
 public class B2_Calc {
 
-    public ArrayList<slPair> pairs;
+    ArrayList<slPair> pairs;
     private String[] accountTypes;
     public Date startDate;
     public Date endDate;
+    private boolean noTransactions;
 
     public B2_Calc(String[] strings) {
         accountTypes = strings;
         Calendar cld = Calendar.getInstance();
         Date lastTransactionDate = cld.getTime();
         try (Realm realm = Realm.getDefaultInstance()) {
-            lastTransactionDate = realm.where((mTra.class)).sort("mDate", Sort.DESCENDING).findFirst().getmDate();
+            if (realm.where(mTra.class).findFirst() == null)
+                noTransactions = true;
+            else
+                lastTransactionDate = realm.where((mTra.class)).sort("mDate", Sort.DESCENDING).findFirst().getmDate();
         }
         cld.setTime(lastTransactionDate);
         cld.set(cld.get(Calendar.YEAR), cld.get(Calendar.MONTH), 1);
@@ -69,6 +73,10 @@ public class B2_Calc {
     public void calculate() {
         pairs = new ArrayList<>();
         try (Realm realm = Realm.getDefaultInstance()) {
+            if (noTransactions) {
+                pairs.add(new slPair("No Data"));
+                return;
+            }
             Long sumEquity = 0L;
             for (int i = 0; i < 2; i++) {
                 pairs.add(new slPair(accountTypes[i]));
