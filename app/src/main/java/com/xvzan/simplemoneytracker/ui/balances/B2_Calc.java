@@ -81,7 +81,7 @@ public class B2_Calc {
             for (int i = 0; i < 2; i++) {
                 pairs.add(new slPair(accountTypes[i]));
                 Long sumsum = 0L;
-                for (mAccount account : realm.where(mAccount.class).equalTo("acct", i).findAllAsync()) {
+                for (mAccount account : realm.where(mAccount.class).equalTo("acct", i).findAllAsync().sort("order", Sort.ASCENDING)) {
                     String name = account.getAname();
                     Long sumlong = realm.where(mTra.class).lessThanOrEqualTo("mDate", endDate).equalTo("accU.aname", name).findAllAsync().sum("uAm").longValue() + realm.where(mTra.class).lessThanOrEqualTo("mDate", endDate).equalTo("accB.aname", name).findAllAsync().sum("bAm").longValue();
                     sumsum += sumlong;
@@ -100,7 +100,7 @@ public class B2_Calc {
             for (int i = 2; i < 4; i++) {
                 pairs.add(new slPair(accountTypes[i]));
                 Long sumsum = 0L;
-                for (mAccount account : realm.where(mAccount.class).equalTo("acct", i).findAllAsync()) {
+                for (mAccount account : realm.where(mAccount.class).equalTo("acct", i).findAllAsync().sort("order", Sort.ASCENDING)) {
                     String name = account.getAname();
                     Long sumlong = realm.where(mTra.class).between("mDate", startDate, endDate).equalTo("accU.aname", name).findAllAsync().sum("uAm").longValue() + realm.where(mTra.class).between("mDate", startDate, endDate).equalTo("accB.aname", name).findAllAsync().sum("bAm").longValue();
                     sumsum += sumlong;
