@@ -52,10 +52,12 @@ public class HomeFragment extends Fragment {
             showAll();
         else
             showCat();
+        FastScroller fastScroller = root.findViewById(R.id.fast_scroller);
+        fastScroller.setRecyclerView(layt);
         return root;
     }
 
-    void showCat() {
+    private void showCat() {
         homeProgress.setVisibility(View.VISIBLE);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(accstr);
         layt.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -67,7 +69,7 @@ public class HomeFragment extends Fragment {
         TotalManager.getInstance().setRecyclerView(adapter_single, totalArray, homeProgress);
     }
 
-    void showAll() {
+    private void showAll() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.all_transactions);
         layt.setLayoutManager(new LinearLayoutManager(getContext()));
         Adapter_Double adapter_double = new Adapter_Double(getActivity(), realmInstance);
