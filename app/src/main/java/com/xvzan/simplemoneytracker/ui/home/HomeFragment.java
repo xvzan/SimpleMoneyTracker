@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,7 +54,8 @@ public class HomeFragment extends Fragment {
         else
             showCat();
         FastScroller fastScroller = root.findViewById(R.id.fast_scroller);
-        fastScroller.setRecyclerView(layt);
+        TextView bubble = root.findViewById(R.id.tv_bubble);
+        fastScroller.setRecyclerView(layt, bubble);
         return root;
     }
 

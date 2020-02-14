@@ -17,13 +17,14 @@ import com.xvzan.simplemoneytracker.dbsettings.mTra;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.Sort;
 
-public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTraHolder> {
+public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTraHolder> implements FastScroller.BubbleTextGetter {
 
     private Context mContext;
     private SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
@@ -49,6 +50,11 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
                 tempLongs[i + 1] = tempLongs[i] - getAmount(mTraList.size() - i - 1);
             }
         }
+    }
+
+    @Override
+    public Date getDateToShowInBubble(final int pos) {
+        return mTraList.get(pos).getmDate();
     }
 
     @Override

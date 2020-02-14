@@ -40,6 +40,26 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="end"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toStartOf="@+id/fast_scroller">
+
+                <TextView
+                    android:id="@+id/tv_bubble"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="26dp"
+                    android:background="@drawable/thumb_drawable"
+                    android:backgroundTint="@color/colorAccent"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
             <com.xvzan.simplemoneytracker.ui.home.FastScroller
                 android:id="@+id/fast_scroller"
                 android:layout_width="wrap_content"

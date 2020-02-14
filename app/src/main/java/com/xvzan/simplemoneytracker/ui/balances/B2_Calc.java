@@ -1,7 +1,5 @@
 package com.xvzan.simplemoneytracker.ui.balances;
 
-import android.widget.Button;
-
 import com.xvzan.simplemoneytracker.dbsettings.mAccount;
 import com.xvzan.simplemoneytracker.dbsettings.mTra;
 

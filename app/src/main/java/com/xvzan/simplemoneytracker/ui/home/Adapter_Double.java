@@ -18,34 +18,39 @@ import com.xvzan.simplemoneytracker.dbsettings.mTra;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.Sort;
 
-public class Adapter_Double extends RecyclerView.Adapter <Adapter_Double.DoubleTraHolder>{
+public class Adapter_Double extends RecyclerView.Adapter<Adapter_Double.DoubleTraHolder> implements FastScroller.BubbleTextGetter {
 
     private Context mContext;
     private SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
     private NumberFormat numberFormat;
     private double d_Double;
     private final OrderedRealmCollection<mTra> mTraList;
-    //private RecyclerView recyclerView;
     private Realm realminstance;
 
-    Adapter_Double(Context context, Realm instance){
+    Adapter_Double(Context context, Realm instance) {
         this.mContext = context;
         numberFormat = NumberFormat.getCurrencyInstance();
-        d_Double = Math.pow(10d,(double) Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits());
+        d_Double = Math.pow(10d, (double) Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits());
         realminstance = instance;
         mTraList = realminstance.where(mTra.class).findAllAsync().sort("mDate", Sort.ASCENDING);
     }
 
     @Override
+    public Date getDateToShowInBubble(final int pos) {
+        return mTraList.get(pos).getmDate();
+    }
+
+    @Override
     @NonNull
     public Adapter_Double.DoubleTraHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Adapter_Double.DoubleTraHolder(LayoutInflater.from(mContext).inflate(R.layout.transaction_duo,parent,false));
+        return new Adapter_Double.DoubleTraHolder(LayoutInflater.from(mContext).inflate(R.layout.transaction_duo, parent, false));
     }
 
     @Override
@@ -53,8 +58,8 @@ public class Adapter_Double extends RecyclerView.Adapter <Adapter_Double.DoubleT
         holder.tdDate.setText(sdf.format(mTraList.get(position).getmDate()));
         holder.tdAU.setText(mTraList.get(position).getAccU().getAname());
         holder.tdAB.setText(mTraList.get(position).getAccB().getAname());
-        holder.tdUAM.setText(numberFormat.format(mTraList.get(position).getuAm()/d_Double));
-        if(mTraList.get(position).getuAm()<0)
+        holder.tdUAM.setText(numberFormat.format(mTraList.get(position).getuAm() / d_Double));
+        if (mTraList.get(position).getuAm() < 0)
             holder.tdUAM.setTextColor(Color.RED);
         holder.tdEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,14 +77,14 @@ public class Adapter_Double extends RecyclerView.Adapter <Adapter_Double.DoubleT
         return mTraList.size();
     }
 
-    class DoubleTraHolder extends RecyclerView.ViewHolder{
+    class DoubleTraHolder extends RecyclerView.ViewHolder {
         TextView tdDate;
         TextView tdAU;
         TextView tdAB;
         TextView tdUAM;
         ImageButton tdEdit;
 
-        DoubleTraHolder(View itemView){
+        DoubleTraHolder(View itemView) {
             super(itemView);
             tdDate = itemView.findViewById(R.id.tv_td_date);
             tdAU = itemView.findViewById(R.id.tv_td_aU);

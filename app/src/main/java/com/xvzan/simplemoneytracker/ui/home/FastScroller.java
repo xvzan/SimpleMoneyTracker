@@ -4,11 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,18 +18,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.xvzan.simplemoneytracker.R;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class FastScroller extends LinearLayout {
-    private static final int TRACK_SNAP_RANGE = 5;
     private static final int HANDLE_ANIMATION_DURATION = 100;
-    private static final int HANDLE_HIDE_DELAY = 1500;
+    private static final int HANDLE_HIDE_DELAY = 1200;
 
     private boolean firstScroll = true;
 
     private ImageView ib_handle;
+    private TextView tv_bubble;
     private RecyclerView recyclerView;
     private int height;
+    private int verticalScrollOffset;
     private AnimatorSet currentAnimator = null;
     private final HandleHider handleHider = new HandleHider();
+
+    interface BubbleTextGetter {
+        Date getDateToShowInBubble(int pos);
+    }
 
     private final RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -37,7 +47,8 @@ public class FastScroller extends LinearLayout {
             }
             if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING)
                 ib_handle.setVisibility(VISIBLE);
-            updateHandlePosition();
+            if (!ib_handle.isSelected())
+                updateHandlePosition();
         }
 
         @Override
@@ -58,24 +69,6 @@ public class FastScroller extends LinearLayout {
         }
     };
 
-    private final RecyclerView.OnItemTouchListener onTouchListener = new RecyclerView.OnItemTouchListener() {
-        @Override
-        public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-            if (e.getAction() == MotionEvent.ACTION_UP || e.getAction() == MotionEvent.ACTION_CANCEL)
-                getHandler().postDelayed(handleHider, HANDLE_HIDE_DELAY);
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    };
-
     public FastScroller(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialise(context);
@@ -93,13 +86,16 @@ public class FastScroller extends LinearLayout {
         inflater.inflate(R.layout.fastscroller, this);
         ib_handle = findViewById(R.id.fastscroller_handle);
         ib_handle.setVisibility(INVISIBLE);
+        tv_bubble = findViewById(R.id.tv_bubble);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         ib_handle.setSelected(false);
+        tv_bubble.setVisibility(INVISIBLE);
         super.onSizeChanged(w, h, oldw, oldh);
         height = h;
+        verticalScrollOffset = recyclerView.computeVerticalScrollOffset();
         updateHandlePosition();
     }
 
@@ -109,14 +105,14 @@ public class FastScroller extends LinearLayout {
             return super.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (event.getY() >= ib_handle.getY() + ib_handle.getHeight() || event.getY() <= ib_handle.getY() - ib_handle.getHeight()) {
+                if (event.getY() >= ib_handle.getY() + ib_handle.getHeight() || event.getY() <= ib_handle.getY()) {
                     return super.onTouchEvent(event);
                 }
                 ib_handle.setSelected(true);
+                tv_bubble.setVisibility(VISIBLE);
                 return true;
             case MotionEvent.ACTION_MOVE:
                 setHandlePosition(event.getY());
-                setRecyclerViewPosition(event.getY());
                 if (currentAnimator != null) {
                     currentAnimator.cancel();
                 }
@@ -129,13 +125,16 @@ public class FastScroller extends LinearLayout {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 ib_handle.setSelected(false);
+                tv_bubble.setVisibility(INVISIBLE);
                 getHandler().postDelayed(handleHider, HANDLE_HIDE_DELAY);
                 return true;
         }
         return super.onTouchEvent(event);
     }
 
-    public void setRecyclerView(final RecyclerView recyclerView) {
+    public void setRecyclerView(final RecyclerView recyclerView, final TextView bubble) {
+        tv_bubble = bubble;
+        tv_bubble.setVisibility(INVISIBLE);
         ib_handle.setVisibility(INVISIBLE);
         if (this.recyclerView != recyclerView) {
             if (this.recyclerView != null)
@@ -144,17 +143,8 @@ public class FastScroller extends LinearLayout {
             if (this.recyclerView == null)
                 return;
             recyclerView.addOnScrollListener(onScrollListener);
-            recyclerView.addOnItemTouchListener(onTouchListener);
         }
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        if (recyclerView != null) {
-            recyclerView.removeOnScrollListener(onScrollListener);
-            recyclerView = null;
-        }
+        verticalScrollOffset = recyclerView.computeVerticalScrollOffset();
     }
 
     private void setRecyclerViewPosition(float y) {
@@ -163,12 +153,21 @@ public class FastScroller extends LinearLayout {
             float proportion;
             if (ib_handle.getY() == 0)
                 proportion = 0f;
-            else if (ib_handle.getY() + ib_handle.getHeight() >= height - TRACK_SNAP_RANGE)
+            else if (ib_handle.getY() + ib_handle.getHeight() >= height)
                 proportion = 1f;
             else
                 proportion = y / (float) height;
             final int targetPos = getValueInRange(0, itemCount - 1, (int) (proportion * (float) itemCount));
-            ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(targetPos, 0);
+            if (ib_handle.isSelected()) {
+                final String bubbleText = DateFormat.getDateInstance().format(((BubbleTextGetter) recyclerView.getAdapter()).getDateToShowInBubble(targetPos));
+                if (tv_bubble != null) {
+                    tv_bubble.setText(bubbleText);
+                }
+            }
+            if (recyclerView.getAdapter().getItemCount() <= height * 2)
+                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(targetPos, verticalScrollOffset);
+            else
+                recyclerView.scrollToPosition(targetPos);
         }
     }
 
@@ -178,17 +177,18 @@ public class FastScroller extends LinearLayout {
     }
 
     private void updateHandlePosition() {
-        if (ib_handle.isSelected())
-            return;
-        final int verticalScrollOffset = recyclerView.computeVerticalScrollOffset();
+        verticalScrollOffset = recyclerView.computeVerticalScrollOffset();
         final int verticalScrollRange = recyclerView.computeVerticalScrollRange();
-        float proportion = (float) verticalScrollOffset / ((float) verticalScrollRange - height);
+        float proportion = (float) verticalScrollOffset / (float) (verticalScrollRange - height);
         setHandlePosition(height * proportion);
     }
 
     private void setHandlePosition(float y) {
         final int handleHeight = ib_handle.getHeight();
         ib_handle.setY(getValueInRange(0, height - handleHeight, (int) (y - handleHeight / 2)));
+        if (ib_handle.isSelected()) {
+            tv_bubble.setY(ib_handle.getY());
+        }
     }
 
     private class HandleHider implements Runnable {
@@ -208,5 +208,14 @@ public class FastScroller extends LinearLayout {
         Animator alpha = ObjectAnimator.ofFloat(ib_handle, ALPHA, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION);
         animatorSet.playTogether(growerX, growerY, alpha);
         animatorSet.start();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (recyclerView != null) {
+            recyclerView.removeOnScrollListener(onScrollListener);
+            recyclerView = null;
+        }
     }
 }
