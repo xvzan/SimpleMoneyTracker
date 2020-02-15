@@ -55,7 +55,8 @@ public class HomeFragment extends Fragment {
             showCat();
         FastScroller fastScroller = root.findViewById(R.id.fast_scroller);
         TextView bubble = root.findViewById(R.id.tv_bubble);
-        fastScroller.setRecyclerView(layt, bubble);
+        TextView bubble_r = root.findViewById(R.id.tv_bubble_right);
+        fastScroller.setRecyclerView(layt, bubble, bubble_r);
         return root;
     }
 

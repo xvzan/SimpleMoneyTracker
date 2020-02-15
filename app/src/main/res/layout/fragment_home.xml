@@ -43,6 +43,7 @@
             </androidx.recyclerview.widget.RecyclerView>
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="end"
@@ -54,6 +55,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginEnd="26dp"
+                    android:background="@drawable/thumb_drawable"
+                    android:backgroundTint="@color/colorAccent"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@+id/fast_scroller">
+
+                <TextView
+                    android:id="@+id/tv_bubble_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="26dp"
                     android:background="@drawable/thumb_drawable"
                     android:backgroundTint="@color/colorAccent"
                     android:gravity="center_vertical"

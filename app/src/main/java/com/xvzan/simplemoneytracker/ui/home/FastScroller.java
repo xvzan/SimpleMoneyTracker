@@ -29,6 +29,7 @@ public class FastScroller extends LinearLayout {
 
     private ImageView ib_handle;
     private TextView tv_bubble;
+    private TextView tv_bubble_right;
     private RecyclerView recyclerView;
     private int height;
     private int verticalScrollOffset;
@@ -86,13 +87,13 @@ public class FastScroller extends LinearLayout {
         inflater.inflate(R.layout.fastscroller, this);
         ib_handle = findViewById(R.id.fastscroller_handle);
         ib_handle.setVisibility(INVISIBLE);
-        tv_bubble = findViewById(R.id.tv_bubble);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         ib_handle.setSelected(false);
         tv_bubble.setVisibility(INVISIBLE);
+        tv_bubble_right.setVisibility(INVISIBLE);
         super.onSizeChanged(w, h, oldw, oldh);
         height = h;
         verticalScrollOffset = recyclerView.computeVerticalScrollOffset();
@@ -110,6 +111,7 @@ public class FastScroller extends LinearLayout {
                 }
                 ib_handle.setSelected(true);
                 tv_bubble.setVisibility(VISIBLE);
+                tv_bubble_right.setVisibility(VISIBLE);
                 return true;
             case MotionEvent.ACTION_MOVE:
                 setHandlePosition(event.getY());
@@ -126,15 +128,18 @@ public class FastScroller extends LinearLayout {
             case MotionEvent.ACTION_CANCEL:
                 ib_handle.setSelected(false);
                 tv_bubble.setVisibility(INVISIBLE);
+                tv_bubble_right.setVisibility(INVISIBLE);
                 getHandler().postDelayed(handleHider, HANDLE_HIDE_DELAY);
                 return true;
         }
         return super.onTouchEvent(event);
     }
 
-    public void setRecyclerView(final RecyclerView recyclerView, final TextView bubble) {
-        tv_bubble = bubble;
+    public void setRecyclerView(final RecyclerView recyclerView, final TextView bubblel, final TextView bubbler) {
+        tv_bubble = bubblel;
+        tv_bubble_right = bubbler;
         tv_bubble.setVisibility(INVISIBLE);
+        tv_bubble_right.setVisibility(INVISIBLE);
         ib_handle.setVisibility(INVISIBLE);
         if (this.recyclerView != recyclerView) {
             if (this.recyclerView != null)
@@ -162,6 +167,7 @@ public class FastScroller extends LinearLayout {
                 final String bubbleText = DateFormat.getDateInstance().format(((BubbleTextGetter) recyclerView.getAdapter()).getDateToShowInBubble(targetPos));
                 if (tv_bubble != null) {
                     tv_bubble.setText(bubbleText);
+                    tv_bubble_right.setText(bubbleText);
                 }
             }
             if (recyclerView.getAdapter().getItemCount() <= height * 2)
@@ -188,6 +194,7 @@ public class FastScroller extends LinearLayout {
         ib_handle.setY(getValueInRange(0, height - handleHeight, (int) (y - handleHeight / 2)));
         if (ib_handle.isSelected()) {
             tv_bubble.setY(ib_handle.getY());
+            tv_bubble_right.setY(ib_handle.getY());
         }
     }
 
