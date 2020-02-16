@@ -34,4 +34,6 @@
     <string name="calculating">Calculating</string>
     <string name="balances">Balances</string>
     <string name="text_switch">Switch</string>
+    <string name="total_">Total&#160;</string>
+    <string name="surplus">Surplus</string>
 </resources>

@@ -28,10 +28,12 @@
     <string name="transfer_to">Transfer to</string>
     <string name="all_transactions">All Transactions</string>
     <string name="note">Note</string>
-    <string name="import_export">Import/Export</string>
-    <string name="export">Export</string>
-    <string name="import_bt">Import</string>
-    <string name="calculating">Calculating</string>
+    <string name="import_export">导入/导出</string>
+    <string name="export">导出</string>
+    <string name="import_bt">导入</string>
+    <string name="calculating">计算中...</string>
     <string name="balances">Balances</string>
     <string name="text_switch">Switch</string>
+    <string name="total_">总</string>
+    <string name="surplus">Surplus</string>
 </resources>

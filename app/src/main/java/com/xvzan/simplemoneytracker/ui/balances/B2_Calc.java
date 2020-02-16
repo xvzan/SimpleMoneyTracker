@@ -1,5 +1,8 @@
 package com.xvzan.simplemoneytracker.ui.balances;
 
+import android.content.Context;
+
+import com.xvzan.simplemoneytracker.R;
 import com.xvzan.simplemoneytracker.dbsettings.mAccount;
 import com.xvzan.simplemoneytracker.dbsettings.mTra;
 
@@ -18,9 +21,11 @@ public class B2_Calc {
     public Date startDate;
     public Date endDate;
     private boolean noTransactions;
+    private Context parent;
 
-    public B2_Calc(String[] strings) {
-        accountTypes = strings;
+    public B2_Calc(Context context) {
+        parent = context;
+        accountTypes = parent.getResources().getStringArray(R.array.account_types);
         Calendar cld = Calendar.getInstance();
         Date lastTransactionDate = cld.getTime();
         try (Realm realm = Realm.getDefaultInstance()) {
@@ -85,7 +90,7 @@ public class B2_Calc {
                     sumsum += sumlong;
                     pairs.add(new slPair(name, sumlong, false));
                 }
-                pairs.add(new slPair("Total", sumsum, true));
+                pairs.add(new slPair(parent.getResources().getString(R.string.total_) + accountTypes[i], sumsum, true));
                 if (i == 0)
                     sumEquity += sumsum;
                 else
@@ -104,14 +109,14 @@ public class B2_Calc {
                     sumsum += sumlong;
                     pairs.add(new slPair(name, sumlong, false));
                 }
-                pairs.add(new slPair("Total", sumsum, true));
+                pairs.add(new slPair(parent.getResources().getString(R.string.total_) + accountTypes[i], sumsum, true));
                 if (i == 2)
                     sumEquity += sumsum;
                 else
                     sumEquity -= sumsum;
                 pairs.add(new slPair(""));
             }
-            pairs.add(new slPair("Surplus", sumEquity, true));
+            pairs.add(new slPair(parent.getResources().getString(R.string.surplus), sumEquity, true));
         }
     }
 }

@@ -48,8 +48,7 @@ public class BalanceActivity extends AppCompatActivity {
         balances_rv = findViewById(R.id.recyclerview_balances);
         balances_rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         balances_rv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        String[] strings = getResources().getStringArray(R.array.account_types);
-        b2Calc = new B2_Calc(strings);
+        b2Calc = new B2_Calc(this);
         bt_sDate = findViewById(R.id.bt_start_date);
         bt_eDate = findViewById(R.id.bt_end_date);
         setDateButtons(b2Calc.getDateString(true), b2Calc.getDateString(false));

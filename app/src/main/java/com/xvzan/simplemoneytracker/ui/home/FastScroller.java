@@ -32,7 +32,6 @@ public class FastScroller extends LinearLayout {
     private TextView tv_bubble_right;
     private RecyclerView recyclerView;
     private int height;
-    private int verticalScrollOffset;
     private AnimatorSet currentAnimator = null;
     private final HandleHider handleHider = new HandleHider();
 
@@ -96,7 +95,6 @@ public class FastScroller extends LinearLayout {
         tv_bubble_right.setVisibility(INVISIBLE);
         super.onSizeChanged(w, h, oldw, oldh);
         height = h;
-        verticalScrollOffset = recyclerView.computeVerticalScrollOffset();
         updateHandlePosition();
     }
 
@@ -110,6 +108,8 @@ public class FastScroller extends LinearLayout {
                     return super.onTouchEvent(event);
                 }
                 ib_handle.setSelected(true);
+                setRecyclerViewPosition(event.getY());
+                getHandler().removeCallbacks(handleHider);
                 tv_bubble.setVisibility(VISIBLE);
                 tv_bubble_right.setVisibility(VISIBLE);
                 return true;
@@ -118,7 +118,6 @@ public class FastScroller extends LinearLayout {
                 if (currentAnimator != null) {
                     currentAnimator.cancel();
                 }
-                getHandler().removeCallbacks(handleHider);
                 if (ib_handle.getVisibility() == INVISIBLE) {
                     showHandle();
                 }
@@ -149,7 +148,6 @@ public class FastScroller extends LinearLayout {
                 return;
             recyclerView.addOnScrollListener(onScrollListener);
         }
-        verticalScrollOffset = recyclerView.computeVerticalScrollOffset();
     }
 
     private void setRecyclerViewPosition(float y) {
@@ -161,8 +159,8 @@ public class FastScroller extends LinearLayout {
             else if (ib_handle.getY() + ib_handle.getHeight() >= height)
                 proportion = 1f;
             else
-                proportion = y / (float) height;
-            final int targetPos = getValueInRange(0, itemCount - 1, (int) (proportion * (float) itemCount));
+                proportion = y / (float) (height - ib_handle.getHeight());
+            int targetPos = getValueInRange(0, itemCount - 1, (int) (proportion * (float) itemCount));
             if (ib_handle.isSelected()) {
                 final String bubbleText = DateFormat.getDateInstance().format(((BubbleTextGetter) recyclerView.getAdapter()).getDateToShowInBubble(targetPos));
                 if (tv_bubble != null) {
@@ -170,9 +168,9 @@ public class FastScroller extends LinearLayout {
                     tv_bubble_right.setText(bubbleText);
                 }
             }
-            if (recyclerView.getAdapter().getItemCount() <= height * 2)
-                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(targetPos, verticalScrollOffset);
-            else
+            if (recyclerView.getAdapter().getItemCount() <= height) {
+                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(targetPos, height / 2);
+            } else
                 recyclerView.scrollToPosition(targetPos);
         }
     }
@@ -183,7 +181,7 @@ public class FastScroller extends LinearLayout {
     }
 
     private void updateHandlePosition() {
-        verticalScrollOffset = recyclerView.computeVerticalScrollOffset();
+        final int verticalScrollOffset = recyclerView.computeVerticalScrollOffset();
         final int verticalScrollRange = recyclerView.computeVerticalScrollRange();
         float proportion = (float) verticalScrollOffset / (float) (verticalScrollRange - height);
         setHandlePosition(height * proportion);
