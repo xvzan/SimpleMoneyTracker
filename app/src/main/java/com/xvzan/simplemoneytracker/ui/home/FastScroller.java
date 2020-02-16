@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,6 +31,7 @@ public class FastScroller extends LinearLayout {
     private TextView tv_bubble_right;
     private RecyclerView recyclerView;
     private int height;
+    private int halfNumber;
     private AnimatorSet currentAnimator = null;
     private final HandleHider handleHider = new HandleHider();
 
@@ -95,6 +95,7 @@ public class FastScroller extends LinearLayout {
         tv_bubble_right.setVisibility(INVISIBLE);
         super.onSizeChanged(w, h, oldw, oldh);
         height = h;
+        halfNumber = height / recyclerView.getChildAt(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()).getHeight() / 2;
         updateHandlePosition();
     }
 
@@ -169,10 +170,19 @@ public class FastScroller extends LinearLayout {
                 }
             }
             if (recyclerView.getAdapter().getItemCount() <= height) {
-                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(targetPos, height / 2);
+                final int offTargetPos = getValueBetween(halfNumber, itemCount - halfNumber, proportion);
+                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(offTargetPos, height / 2);
             } else
                 recyclerView.scrollToPosition(targetPos);
         }
+    }
+
+    private int getValueBetween(int min, int max, float k) {
+        if (k <= 0)
+            return min;
+        if (k >= 1)
+            return max;
+        return (int) ((max - min) * k) + min;
     }
 
     private int getValueInRange(int min, int max, int value) {
