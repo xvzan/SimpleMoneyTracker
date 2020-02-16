@@ -192,10 +192,8 @@ public class FastScroller extends LinearLayout {
     private void setHandlePosition(float y) {
         final int handleHeight = ib_handle.getHeight();
         ib_handle.setY(getValueInRange(0, height - handleHeight, (int) (y - handleHeight / 2)));
-        if (ib_handle.isSelected()) {
-            tv_bubble.setY(ib_handle.getY());
-            tv_bubble_right.setY(ib_handle.getY());
-        }
+        tv_bubble.setY(ib_handle.getY());
+        tv_bubble_right.setY(ib_handle.getY());
     }
 
     private class HandleHider implements Runnable {
