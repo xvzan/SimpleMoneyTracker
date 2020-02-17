@@ -96,9 +96,11 @@ public class FastScroller extends LinearLayout {
         tv_bubble_right.setVisibility(INVISIBLE);
         super.onSizeChanged(w, h, oldw, oldh);
         height = h;
-        final int singleHeight = recyclerView.getChildAt(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()).getHeight();
-        halfNumber = height / singleHeight / 2;
         verticalOffset = height / 2;
+        if (recyclerView.getAdapter().getItemCount() > 0 && recyclerView.getAdapter().getItemCount() <= height) {
+            final int singleHeight = recyclerView.getChildAt(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()).getHeight();
+            halfNumber = height / singleHeight / 2;
+        }
         updateHandlePosition();
     }
 
