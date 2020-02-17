@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xvzan.simplemoneytracker.R;
@@ -31,8 +30,6 @@ public class FastScroller extends LinearLayout {
     private TextView tv_bubble_right;
     private RecyclerView recyclerView;
     private int height;
-    private int verticalOffset;
-    private int halfNumber;
     private AnimatorSet currentAnimator = null;
     private final HandleHider handleHider = new HandleHider();
 
@@ -96,11 +93,6 @@ public class FastScroller extends LinearLayout {
         tv_bubble_right.setVisibility(INVISIBLE);
         super.onSizeChanged(w, h, oldw, oldh);
         height = h;
-        verticalOffset = height / 2;
-        if (recyclerView.getAdapter().getItemCount() > 0 && recyclerView.getAdapter().getItemCount() <= height) {
-            final int singleHeight = recyclerView.getChildAt(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()).getHeight();
-            halfNumber = height / singleHeight / 2;
-        }
         updateHandlePosition();
     }
 
@@ -166,7 +158,7 @@ public class FastScroller extends LinearLayout {
                 proportion = 1f;
             else
                 proportion = y / (float) (height - ib_handle.getHeight());
-            int targetPos = getValueInRange(0, itemCount - 1, (int) (proportion * (float) itemCount));
+            int targetPos = getValueBetween(0, itemCount - 1, proportion);
             if (ib_handle.isSelected()) {
                 final String bubbleText = DateFormat.getDateInstance().format(((BubbleTextGetter) recyclerView.getAdapter()).getDateToShowInBubble(targetPos));
                 if (tv_bubble != null) {
@@ -174,11 +166,7 @@ public class FastScroller extends LinearLayout {
                     tv_bubble_right.setText(bubbleText);
                 }
             }
-            if (recyclerView.getAdapter().getItemCount() <= height) {
-                final int offTargetPos = getValueBetween(halfNumber, itemCount - halfNumber, proportion);
-                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(offTargetPos, verticalOffset);
-            } else
-                recyclerView.scrollToPosition(targetPos);
+            recyclerView.scrollToPosition(targetPos);
         }
     }
 
