@@ -31,6 +31,7 @@ public class FastScroller extends LinearLayout {
     private TextView tv_bubble_right;
     private RecyclerView recyclerView;
     private int height;
+    private int verticalOffset;
     private int halfNumber;
     private AnimatorSet currentAnimator = null;
     private final HandleHider handleHider = new HandleHider();
@@ -95,7 +96,9 @@ public class FastScroller extends LinearLayout {
         tv_bubble_right.setVisibility(INVISIBLE);
         super.onSizeChanged(w, h, oldw, oldh);
         height = h;
-        halfNumber = height / recyclerView.getChildAt(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()).getHeight() / 2;
+        final int singleHeight = recyclerView.getChildAt(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()).getHeight();
+        halfNumber = height / singleHeight / 2;
+        verticalOffset = height / 2;
         updateHandlePosition();
     }
 
@@ -171,7 +174,7 @@ public class FastScroller extends LinearLayout {
             }
             if (recyclerView.getAdapter().getItemCount() <= height) {
                 final int offTargetPos = getValueBetween(halfNumber, itemCount - halfNumber, proportion);
-                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(offTargetPos, height / 2);
+                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(offTargetPos, verticalOffset);
             } else
                 recyclerView.scrollToPosition(targetPos);
         }
