@@ -37,7 +37,7 @@ public class Adapter_Double extends RecyclerView.Adapter<Adapter_Double.DoubleTr
     Adapter_Double(Context context, Realm instance) {
         this.mContext = context;
         numberFormat = NumberFormat.getCurrencyInstance();
-        d_Double = Math.pow(10d, (double) Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits());
+        d_Double = Math.pow(10d, Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits());
         realminstance = instance;
         mTraList = realminstance.where(mTra.class).findAllAsync().sort("mDate", Sort.ASCENDING);
     }
@@ -61,6 +61,8 @@ public class Adapter_Double extends RecyclerView.Adapter<Adapter_Double.DoubleTr
         holder.tdUAM.setText(numberFormat.format(mTraList.get(position).getuAm() / d_Double));
         if (mTraList.get(position).getuAm() < 0)
             holder.tdUAM.setTextColor(Color.RED);
+        else
+            holder.tdUAM.setTextColor(holder.tdDate.getTextColors());
         holder.tdEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
