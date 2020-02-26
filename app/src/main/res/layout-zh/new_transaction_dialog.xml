@@ -35,6 +35,7 @@
             <Spinner
                 android:id="@+id/spn_nt_aB"
                 android:layout_width="match_parent"
+                android:spinnerMode="dialog"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
@@ -62,6 +63,7 @@
             <Spinner
                 android:id="@+id/spn_nt_aU"
                 android:layout_width="match_parent"
+                android:spinnerMode="dialog"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
