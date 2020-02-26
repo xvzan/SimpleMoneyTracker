@@ -126,7 +126,7 @@ public class NewTransaction extends Fragment {
                 long amint;
                 if (amstr.matches("")) return;
                 if (amstr.contains("."))
-                    amint = (long) (Double.parseDouble(amstr) * Math.pow(10d, (double) Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits()));
+                    amint = (long) (Double.parseDouble(amstr) * Math.pow(10d, Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits()));
                 else
                     amint = Long.parseLong(amstr);
                 String tNote = note.getText().toString();
@@ -192,7 +192,7 @@ public class NewTransaction extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    void setHintTextViews() {
+    private void setHintTextViews() {
         if (typeList.get(aU.getSelectedItemPosition()) == -1 || typeList.get(aB.getSelectedItemPosition()) == -1) {
             tU.setText(R.string.category);
             tB.setText(R.string.account);

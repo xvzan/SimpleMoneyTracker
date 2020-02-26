@@ -32,15 +32,15 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
     private double d_Double;
     private OrderedRealmCollection<mTra> mTraList;
     Long[] longs;
-    Long[] tempLongs;
-    String accstr;
+    private Long[] tempLongs;
+    private String accstr;
     private Realm realminstance;
 
     Adapter_Single(Context context, String str, Realm instance) {
         this.mContext = context;
         accstr = str;
         numberFormat = NumberFormat.getCurrencyInstance();
-        d_Double = Math.pow(10d, (double) Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits());
+        d_Double = Math.pow(10d, Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits());
         realminstance = instance;
         mTraList = realminstance.where(mTra.class).equalTo("accU.aname", accstr).or().equalTo("accB.aname", accstr).findAll().sort("mDate", Sort.ASCENDING);
         if (mTraList.size() >= 512) {
@@ -59,8 +59,7 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
 
     @Override
     public Adapter_Single.SingleTraHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        SingleTraHolder singleTraHolder = new SingleTraHolder(LayoutInflater.from(mContext).inflate(R.layout.transaction_single, parent, false));
-        return singleTraHolder;
+        return new SingleTraHolder(LayoutInflater.from(mContext).inflate(R.layout.transaction_single, parent, false));
     }
 
     @Override

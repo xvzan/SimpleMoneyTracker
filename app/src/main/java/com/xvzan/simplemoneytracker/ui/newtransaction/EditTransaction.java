@@ -153,7 +153,7 @@ public class EditTransaction extends Fragment {
                 long amint;
                 if (amstr.matches("")) return;
                 if (amstr.contains("."))
-                    amint = (long) (Double.parseDouble(amstr) * Math.pow(10d, (double) Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits()));
+                    amint = (long) (Double.parseDouble(amstr) * Math.pow(10d, Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits()));
                 else
                     amint = Long.parseLong(amstr);
                 if (aU.getSelectedItemPosition() == 0 || aB.getSelectedItemPosition() == 0 || aU.getSelectedItemPosition() == aB.getSelectedItemPosition())
@@ -190,7 +190,7 @@ public class EditTransaction extends Fragment {
         return root;
     }
 
-    void setHintTextViews() {
+    private void setHintTextViews() {
         if (typeList.get(aU.getSelectedItemPosition()) == -1 || typeList.get(aB.getSelectedItemPosition()) == -1) {
             tU.setText(R.string.category);
             tB.setText(R.string.account);
