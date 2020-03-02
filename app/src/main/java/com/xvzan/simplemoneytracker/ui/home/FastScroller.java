@@ -106,7 +106,7 @@ public class FastScroller extends LinearLayout {
                     return super.onTouchEvent(event);
                 }
                 ib_handle.setSelected(true);
-                setRecyclerViewPosition(event.getY());
+                setRecyclerViewPosition(event.getY() - ib_handle.getHeight() / 2);
                 getHandler().removeCallbacks(handleHider);
                 tv_bubble.setVisibility(VISIBLE);
                 tv_bubble_right.setVisibility(VISIBLE);
@@ -119,7 +119,7 @@ public class FastScroller extends LinearLayout {
                 if (ib_handle.getVisibility() == INVISIBLE) {
                     showHandle();
                 }
-                setRecyclerViewPosition(event.getY());
+                setRecyclerViewPosition(event.getY() - ib_handle.getHeight() / 2);
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -151,13 +151,7 @@ public class FastScroller extends LinearLayout {
     private void setRecyclerViewPosition(float y) {
         if (recyclerView != null) {
             final int itemCount = recyclerView.getAdapter().getItemCount();
-            float proportion;
-            if (ib_handle.getY() == 0)
-                proportion = 0f;
-            else if (ib_handle.getY() + ib_handle.getHeight() >= height)
-                proportion = 1f;
-            else
-                proportion = y / (float) (height - ib_handle.getHeight());
+            float proportion = y / (float) (height - ib_handle.getHeight());
             int targetPos = getValueBetween(0, itemCount - 1, proportion);
             if (ib_handle.isSelected()) {
                 final String bubbleText = DateFormat.getDateInstance().format(((BubbleTextGetter) recyclerView.getAdapter()).getDateToShowInBubble(targetPos));
