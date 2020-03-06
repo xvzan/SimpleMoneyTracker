@@ -1,0 +1,10 @@
+A simple personal accounting app designed to make it easy to keep track of your income and expenses on your Android device.
+
+Features:
+Fast and easy entry and editing of income and expenses.
+
+Summary balance sheet and income/expense statement shows you where you stand on selected period.
+
+Easy reconciliation with your bank statements.
+
+Import/Export .csv files.
