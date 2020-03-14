@@ -3,7 +3,7 @@
     <shortcut
         android:shortcutId="newtransaction"
         android:enabled="true"
-        android:icon="@drawable/ic_credit_card_black_24dp"
+        android:icon="@mipmap/ic_new_transaction"
         android:shortcutShortLabel="@string/new_transaction"
         android:shortcutLongLabel="@string/new_transaction"
         android:shortcutDisabledMessage="@string/new_transaction">
@@ -17,14 +17,14 @@
     <shortcut
         android:shortcutId="balances"
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_balances"
         android:shortcutShortLabel="@string/balances"
         android:shortcutLongLabel="@string/balances"
         android:shortcutDisabledMessage="@string/balances">
         <intent
             android:action="com.xvzan.simplemoneytracker.BalanceActivity"
             android:targetPackage="com.xvzan.simplemoneytracker"
-            android:targetClass="com.xvzan.simplemoneytracker.BalanceActivity" />
+            android:targetClass="com.xvzan.simplemoneytracker.MainActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <!-- Specify more shortcuts here. -->
