@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="newtransaction"
+        android:enabled="true"
+        android:icon="@drawable/ic_credit_card_black_24dp"
+        android:shortcutShortLabel="@string/new_transaction"
+        android:shortcutLongLabel="@string/new_transaction"
+        android:shortcutDisabledMessage="@string/new_transaction">
+        <intent
+            android:action="com.xvzan.simplemoneytracker.NewTransaction"
+            android:targetPackage="com.xvzan.simplemoneytracker"
+            android:targetClass="com.xvzan.simplemoneytracker.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="balances"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/balances"
+        android:shortcutLongLabel="@string/balances"
+        android:shortcutDisabledMessage="@string/balances">
+        <intent
+            android:action="com.xvzan.simplemoneytracker.BalanceActivity"
+            android:targetPackage="com.xvzan.simplemoneytracker"
+            android:targetClass="com.xvzan.simplemoneytracker.BalanceActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <!-- Specify more shortcuts here. -->
+</shortcuts>

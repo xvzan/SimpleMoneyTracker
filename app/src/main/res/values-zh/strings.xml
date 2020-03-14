@@ -11,8 +11,8 @@
     <string name="add_account">Add Account</string>
     <string name="add">Add</string>
     <string name="account_name">Account Name</string>
-    <string name="new_transaction">New Transaction</string>
-    <string name="edit_transaction">Edit Transaction</string>
+    <string name="new_transaction">新交易</string>
+    <string name="edit_transaction">编辑交易</string>
     <string name="category">Category</string>
     <string name="account">Account</string>
     <string name="done">Done</string>
