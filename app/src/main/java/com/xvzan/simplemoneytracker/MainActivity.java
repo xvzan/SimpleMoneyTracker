@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity implements AddAccountDialogFragment.addAccountListener {
@@ -47,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().name("smt.realm").build();
         setContentView(R.layout.activity_main);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

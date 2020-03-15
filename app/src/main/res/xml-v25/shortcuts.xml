@@ -24,7 +24,7 @@
         <intent
             android:action="com.xvzan.simplemoneytracker.BalanceActivity"
             android:targetPackage="com.xvzan.simplemoneytracker"
-            android:targetClass="com.xvzan.simplemoneytracker.MainActivity" />
+            android:targetClass="com.xvzan.simplemoneytracker.BalanceActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <!-- Specify more shortcuts here. -->
