@@ -8,9 +8,9 @@
         android:shortcutLongLabel="@string/new_transaction"
         android:shortcutDisabledMessage="@string/new_transaction">
         <intent
-            android:action="com.xvzan.simplemoneytracker.NewTransaction"
+            android:action="com.xvzan.simplemoneytracker.NewTransactionActivity"
             android:targetPackage="com.xvzan.simplemoneytracker"
-            android:targetClass="com.xvzan.simplemoneytracker.MainActivity" />
+            android:targetClass="com.xvzan.simplemoneytracker.NewTransactionActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 

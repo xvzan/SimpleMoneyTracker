@@ -50,9 +50,6 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navSetUP();
-        if ("com.xvzan.simplemoneytracker.NewTransaction".equals(getIntent().getAction())) {
-            navController.navigate(R.id.nav_new_tran);
-        }
     }
 
     @Override
