@@ -151,7 +151,7 @@ public class EditTransaction extends Fragment {
             public void onClick(View v) {
                 String amstr = am.getText().toString();
                 long amint;
-                if (amstr.matches("")) return;
+                if (amstr.equals("")) return;
                 if (amstr.contains("."))
                     amint = (long) (Double.parseDouble(amstr) * Math.pow(10d, Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits()));
                 else

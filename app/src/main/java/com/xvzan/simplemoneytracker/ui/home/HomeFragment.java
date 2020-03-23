@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
         accstr = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("nowAccount", "");
         TotalManager.cancelAll();
         homeProgress = root.findViewById(R.id.homeProgress);
-        if (accstr.matches(""))
+        if (accstr.equals(""))
             showAll();
         else
             showCat();

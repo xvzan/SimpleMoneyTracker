@@ -75,7 +75,7 @@ public class NewTransaction extends Fragment {
             aU.setAdapter(maaa);
             aB.setAdapter(maaa);
             String accstr = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("nowAccount", "");
-            if (!accstr.matches("") && nameList.contains(accstr)) {
+            if (!accstr.equals("") && nameList.contains(accstr)) {
                 int mmm = nameList.indexOf(accstr);
                 if (accList.get(mmm - 1).getBl1())
                     if (accList.get(mmm - 1).getAcct() == 4)
@@ -124,7 +124,7 @@ public class NewTransaction extends Fragment {
             public void onClick(View v) {
                 String amstr = am.getText().toString();
                 long amint;
-                if (amstr.matches("")) return;
+                if (amstr.equals("")) return;
                 if (amstr.contains("."))
                     amint = (long) (Double.parseDouble(amstr) * Math.pow(10d, Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits()));
                 else

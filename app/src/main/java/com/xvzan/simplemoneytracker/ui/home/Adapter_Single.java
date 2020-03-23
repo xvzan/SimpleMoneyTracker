@@ -64,7 +64,7 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
 
     @Override
     public void onBindViewHolder(Adapter_Single.SingleTraHolder holder, final int position) {
-        if (mTraList.get(position).getAccU().getAname().matches(accstr)) {
+        if (mTraList.get(position).getAccU().getAname().equals(accstr)) {
             holder.tsAccount.setText(mTraList.get(position).getAccB().getAname());
             holder.tsAmount.setText(numberFormat.format(mTraList.get(position).getuAm() / d_Double));
             if (mTraList.get(position).getuAm() < 0)
@@ -113,7 +113,7 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
     }
 
     private Long getAmount(int pos) {
-        if (mTraList.get(pos).getAccU().getAname().matches(accstr)) {
+        if (mTraList.get(pos).getAccU().getAname().equals(accstr)) {
             return mTraList.get(pos).getuAm();
         } else {
             return mTraList.get(pos).getbAm();
