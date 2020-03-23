@@ -1,5 +1,8 @@
-0.7.5
-Minor fix
+0.8.0
+Minor Improve
+
+0.7.9
+Shortcuts
 
 0.7.4
 Improved fast scroll.

@@ -12,10 +12,8 @@ public class TotalArray implements Runnable {
 
     private String accstr;
     private Realm realmInstance;
-    private OrderedRealmCollection<mTra> mTraList;
     private Thread mCurrentThread;
     //private Adapter_Single adapter_single;
-    private Long[] totalList;
     private int size;
 
     TotalArray(String str, int i) {
@@ -41,38 +39,35 @@ public class TotalArray implements Runnable {
         setCurrentThread(Thread.currentThread());
         TotalManager.getInstance().threads.add(getCurrentThread());
         try {
-            if (Thread.currentThread().interrupted()) {
+            if (Thread.interrupted()) {
                 throw new InterruptedException();
             }
             try (Realm realm = Realm.getDefaultInstance()) {
-                mTraList = realm.where(mTra.class).equalTo("accU.aname", accstr).or().equalTo("accB.aname", accstr).findAll().sort("mDate", Sort.ASCENDING);
-                if (Thread.currentThread().interrupted()) {
+                OrderedRealmCollection<mTra> mTraList = realm.where(mTra.class).equalTo("accU.aname", accstr).or().equalTo("accB.aname", accstr).findAll().sort("mDate", Sort.ASCENDING);
+                if (Thread.interrupted()) {
                     throw new InterruptedException();
                 }
                 size = mTraList.size();
-                totalList = new Long[size];
+                Long[] totalList = new Long[size];
                 long i = 0;
                 for (int a = 0; a < mTraList.size(); a++) {
-                    if (Thread.currentThread().interrupted()) {
+                    if (Thread.interrupted()) {
                         throw new InterruptedException();
                     }
-                    if (mTraList.get(a).getAccU().getAname().matches(accstr)) {
+                    if (mTraList.get(a).getAccU().getAname().equals(accstr)) {
                         i += mTraList.get(a).getuAm();
                     } else {
                         i += mTraList.get(a).getbAm();
                     }
                     totalList[a] = i;
                 }
+                TotalManager.getInstance().arrayCompleteHandle(1, totalList);
             }
-            TotalManager.getInstance().arrayCompleteHandle(1, totalList);
         } catch (InterruptedException e1) {
             TotalManager.getInstance().threads.remove(getCurrentThread());
-            Thread.interrupted();
-            return;
         } finally {
             // Clears the Thread's interrupt flag
             TotalManager.getInstance().threads.remove(getCurrentThread());
-            Thread.interrupted();
         }
     }
 }
