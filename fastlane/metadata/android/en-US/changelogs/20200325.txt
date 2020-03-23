@@ -1,5 +1,5 @@
-0.8.0
-Minor Improve
+0.8.1
+Minor improve
 
 0.7.9
 Shortcuts

@@ -1,7 +1,6 @@
 package com.xvzan.simplemoneytracker.dbsettings;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 public class mAccount extends RealmObject {
     private boolean editme;
