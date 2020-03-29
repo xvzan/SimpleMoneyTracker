@@ -23,6 +23,15 @@ public class mTra extends RealmObject {
         mDate = d;
     }
 
+    public void directSet(mAccount u, mAccount b, long dam, long uam, long bam, Date d) {
+        accU = u;
+        accB = b;
+        deltaAmount = dam;
+        uAm = uam;
+        bAm = bam;
+        mDate = d;
+    }
+
     public void setAllAmount() {
         if (accB.getAcct() == 4) {
             uAm = deltaAmount;

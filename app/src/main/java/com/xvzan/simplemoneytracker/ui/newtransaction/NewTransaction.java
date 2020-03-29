@@ -143,7 +143,8 @@ public class NewTransaction extends Fragment {
                     realm.commitTransaction();
                 }
                 //Navigation.findNavController(root).navigate(R.id.action_nav_new_tran_to_nav_home);
-                Navigation.findNavController(root).navigateUp();
+                Navigation.findNavController(root).navigate(R.id.nav_empty);
+                Navigation.findNavController(root).navigate(R.id.action_nav_empty_to_nav_home);
             }
         });
         dt.setText(DateFormat.getDateInstance().format(cld.getTime()));

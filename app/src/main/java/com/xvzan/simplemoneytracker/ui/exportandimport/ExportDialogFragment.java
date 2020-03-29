@@ -34,9 +34,9 @@ public class ExportDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.export_dialog_gragment, container);
         TextView tvf = view.findViewById(R.id.tv_export_folder);
-        csvA = new File(getContext().getExternalFilesDir(null),"accounts.csv");
-        csvT = new File(getContext().getExternalFilesDir(null),"transactions.csv");
-        tvf.setText("Output Folder: "+getContext().getExternalFilesDir(null).getAbsolutePath());
+        csvA = new File(getContext().getExternalFilesDir(null), "accounts.csv");
+        csvT = new File(getContext().getExternalFilesDir(null), "transactions.csv");
+        tvf.setText("Output Folder: " + getContext().getExternalFilesDir(null).getAbsolutePath());
         Button bte = view.findViewById(R.id.bt_export);
         bte.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,20 +47,20 @@ public class ExportDialogFragment extends DialogFragment {
         return view;
     }
 
-    private void exportCSV(){
-        if(csvA.exists())
+    private void exportCSV() {
+        if (csvA.exists())
             csvA.delete();
-        csvA = new File(getContext().getExternalFilesDir(null),"accounts");
-        if(csvT.exists())
+        csvA = new File(getContext().getExternalFilesDir(null), "accounts");
+        if (csvT.exists())
             csvT.delete();
-        csvT = new File(getContext().getExternalFilesDir(null),"transactions");
+        csvT = new File(getContext().getExternalFilesDir(null), "transactions");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(csvA,true);
+            FileOutputStream fileOutputStream = new FileOutputStream(csvA, true);
             StringBuilder stringBuilder = new StringBuilder();
-            try(Realm realm = Realm.getDefaultInstance()){
+            try (Realm realm = Realm.getDefaultInstance()) {
                 OrderedRealmCollection<mAccount> mAList = realm.where(mAccount.class).findAll().sort("order", Sort.ASCENDING);
-                for (mAccount ma : mAList){
+                for (mAccount ma : mAList) {
                     stringBuilder.append(ma.getAname()).append("\t").append(ma.getAcct());
                     stringBuilder.append("\n");
                 }
@@ -68,26 +68,32 @@ public class ExportDialogFragment extends DialogFragment {
                 fileOutputStream.flush();
                 fileOutputStream.close();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(csvT,true);
+            FileOutputStream fileOutputStream = new FileOutputStream(csvT, true);
             StringBuilder stringBuilder = new StringBuilder();
-            try(Realm realm = Realm.getDefaultInstance()){
+            try (Realm realm = Realm.getDefaultInstance()) {
                 OrderedRealmCollection<mTra> mTraList = realm.where(mTra.class).findAll().sort("mDate", Sort.ASCENDING);
-                for (mTra mt : mTraList){
-                    stringBuilder.append(sdf.format(mt.getmDate())).append("\t").append(mt.getAccB().getAname()).append("\t").append(mt.getAccU().getAname()).append("\t").append(mt.getDeltaAmount()).append("\t").append(mt.getmNote());
+                for (mTra mt : mTraList) {
+                    stringBuilder.append(sdf.format(mt.getmDate()))
+                            .append("\t").append(mt.getAccB().getAname())
+                            .append("\t").append(mt.getAccU().getAname())
+                            .append("\t").append(mt.getDeltaAmount())
+                            .append("\t").append(mt.getuAm())
+                            .append("\t").append(mt.getbAm())
+                            .append("\t").append(mt.getmNote());
                     stringBuilder.append("\n");
                 }
                 fileOutputStream.write(stringBuilder.toString().getBytes());
                 fileOutputStream.flush();
                 fileOutputStream.close();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        Toast.makeText(getContext(),"Exported",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Exported", Toast.LENGTH_SHORT).show();
         getDialog().dismiss();
     }
 }

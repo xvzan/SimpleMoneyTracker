@@ -91,9 +91,9 @@ public class ImportDialogfragment extends DialogFragment {
                         mAccount uu = realm.where(mAccount.class).equalTo("aname", item[2]).findFirst();
                         mAccount bb = realm.where(mAccount.class).equalTo("aname", item[1]).findFirst();
                         mTra ts = new mTra();
-                        ts.allSet(uu, bb, Long.parseLong(item[3]), sdf.parse(item[0]));
-                        if (item.length == 5) {
-                            ts.setmNote(item[4]);
+                        ts.directSet(uu, bb, Long.parseLong(item[3]), Long.parseLong(item[4]), Long.parseLong(item[5]), sdf.parse(item[0]));
+                        if (item.length == 7) {
+                            ts.setmNote(item[6]);
                         } else {
                             ts.setmNote("");
                         }
