@@ -2,6 +2,7 @@ package com.xvzan.simplemoneytracker.ui.home;
 
 import android.os.Process;
 
+import com.xvzan.simplemoneytracker.dbsettings.mAccount;
 import com.xvzan.simplemoneytracker.dbsettings.mTra;
 
 import io.realm.OrderedRealmCollection;
@@ -10,14 +11,15 @@ import io.realm.Sort;
 
 public class TotalArray implements Runnable {
 
-    private String accstr;
+    //private String accstr;
+    private int accOrder;
     private Realm realmInstance;
     private Thread mCurrentThread;
     //private Adapter_Single adapter_single;
     private int size;
 
-    TotalArray(String str, int i) {
-        accstr = str;
+    TotalArray(int order, int i) {
+        accOrder = order;
         size = i;
     }
 
@@ -43,7 +45,8 @@ public class TotalArray implements Runnable {
                 throw new InterruptedException();
             }
             try (Realm realm = Realm.getDefaultInstance()) {
-                OrderedRealmCollection<mTra> mTraList = realm.where(mTra.class).equalTo("accU.aname", accstr).or().equalTo("accB.aname", accstr).findAll().sort("mDate", Sort.ASCENDING);
+                //accOrder = realm.where(mAccount.class).equalTo("aname", accstr).findFirst().getOrder();
+                OrderedRealmCollection<mTra> mTraList = realm.where(mTra.class).equalTo("accU.order", accOrder).or().equalTo("accB.order", accOrder).findAll().sort("mDate", Sort.ASCENDING);
                 if (Thread.interrupted()) {
                     throw new InterruptedException();
                 }
@@ -54,7 +57,7 @@ public class TotalArray implements Runnable {
                     if (Thread.interrupted()) {
                         throw new InterruptedException();
                     }
-                    if (mTraList.get(a).getAccU().getAname().equals(accstr)) {
+                    if (mTraList.get(a).getAccU().getOrder() == accOrder) {
                         i += mTraList.get(a).getuAm();
                     } else {
                         i += mTraList.get(a).getbAm();

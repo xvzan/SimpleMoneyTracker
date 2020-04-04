@@ -63,6 +63,10 @@ public class mAccount extends RealmObject {
         order = i;
     }
 
+    public int getOrder() {
+        return order;
+    }
+
     //public boolean getXOR(){return bl1^bl2;}
     public void setEditme() {
         editme = true;

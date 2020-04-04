@@ -33,19 +33,20 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
     private OrderedRealmCollection<mTra> mTraList;
     Long[] longs;
     private Long[] tempLongs;
-    private String accstr;
+    //private String accstr;
+    private int accOrder;
     private Realm realminstance;
 
-    Adapter_Single(Context context, String str, Realm instance) {
+    Adapter_Single(Context context, int order, Realm instance) {
         this.mContext = context;
-        accstr = str;
+        accOrder = order;
         numberFormat = NumberFormat.getCurrencyInstance();
         d_Double = Math.pow(10d, Currency.getInstance(Locale.getDefault()).getDefaultFractionDigits());
         realminstance = instance;
-        mTraList = realminstance.where(mTra.class).equalTo("accU.aname", accstr).or().equalTo("accB.aname", accstr).findAll().sort("mDate", Sort.ASCENDING);
+        mTraList = realminstance.where(mTra.class).equalTo("accU.order", accOrder).or().equalTo("accB.order", accOrder).findAll().sort("mDate", Sort.ASCENDING);
         if (mTraList.size() >= 512) {
             tempLongs = new Long[32];
-            tempLongs[0] = realminstance.where(mTra.class).equalTo("accU.aname", accstr).findAllAsync().sum("uAm").longValue() + realminstance.where(mTra.class).equalTo("accB.aname", accstr).findAllAsync().sum("bAm").longValue();
+            tempLongs[0] = realminstance.where(mTra.class).equalTo("accU.order", accOrder).findAllAsync().sum("uAm").longValue() + realminstance.where(mTra.class).equalTo("accB.order", accOrder).findAllAsync().sum("bAm").longValue();
             for (int i = 0; i < 31; i++) {
                 tempLongs[i + 1] = tempLongs[i] - getAmount(mTraList.size() - i - 1);
             }
@@ -64,7 +65,7 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
 
     @Override
     public void onBindViewHolder(Adapter_Single.SingleTraHolder holder, final int position) {
-        if (mTraList.get(position).getAccU().getAname().equals(accstr)) {
+        if (mTraList.get(position).getAccU().getOrder() == accOrder) {
             holder.tsAccount.setText(mTraList.get(position).getAccB().getAname());
             holder.tsAmount.setText(numberFormat.format(mTraList.get(position).getuAm() / d_Double));
             if (mTraList.get(position).getuAm() < 0)
@@ -113,7 +114,7 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
     }
 
     private Long getAmount(int pos) {
-        if (mTraList.get(pos).getAccU().getAname().equals(accstr)) {
+        if (mTraList.get(pos).getAccU().getOrder() == accOrder) {
             return mTraList.get(pos).getuAm();
         } else {
             return mTraList.get(pos).getbAm();

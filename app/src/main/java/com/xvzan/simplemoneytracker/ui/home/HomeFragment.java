@@ -18,15 +18,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xvzan.simplemoneytracker.R;
+import com.xvzan.simplemoneytracker.dbsettings.mAccount;
 
 import io.realm.Realm;
 
 public class HomeFragment extends Fragment {
 
     private RecyclerView layt;
-    Realm realmInstance;
-    ProgressBar homeProgress;
-    TotalArray totalArray;
+    private Realm realmInstance;
+    private ProgressBar homeProgress;
+    private TotalArray totalArray;
     private String accstr;
 
     @Override
@@ -64,11 +65,13 @@ public class HomeFragment extends Fragment {
         homeProgress.setVisibility(View.VISIBLE);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(accstr);
         layt.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter_Single adapter_single = new Adapter_Single(getActivity(), accstr, realmInstance);
+        int accOrder;
+        accOrder = realmInstance.where(mAccount.class).equalTo("aname", accstr).findFirst().getOrder();
+        Adapter_Single adapter_single = new Adapter_Single(getActivity(), accOrder, realmInstance);
         layt.setAdapter(adapter_single);
         int i = adapter_single.getItemCount();
         layt.scrollToPosition(i - 1);
-        totalArray = new TotalArray(accstr, i);
+        totalArray = new TotalArray(accOrder, i);
         TotalManager.getInstance().setRecyclerView(adapter_single, totalArray, homeProgress);
     }
 
