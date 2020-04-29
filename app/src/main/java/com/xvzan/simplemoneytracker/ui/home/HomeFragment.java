@@ -27,7 +27,6 @@ public class HomeFragment extends Fragment {
     private RecyclerView layt;
     private Realm realmInstance;
     private ProgressBar homeProgress;
-    private TotalArray totalArray;
     private String accstr;
 
     @Override
@@ -71,7 +70,7 @@ public class HomeFragment extends Fragment {
         layt.setAdapter(adapter_single);
         int i = adapter_single.getItemCount();
         layt.scrollToPosition(i - 1);
-        totalArray = new TotalArray(accOrder, i);
+        TotalArray totalArray = new TotalArray(accOrder, i);
         TotalManager.getInstance().setRecyclerView(adapter_single, totalArray, homeProgress);
     }
 

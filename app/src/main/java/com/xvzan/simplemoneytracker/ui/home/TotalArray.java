@@ -23,7 +23,7 @@ public class TotalArray implements Runnable {
         size = i;
     }
 
-    public Thread getCurrentThread() {
+    private Thread getCurrentThread() {
         return mCurrentThread;
     }
 
@@ -31,7 +31,7 @@ public class TotalArray implements Runnable {
      * Sets the identifier for the current Thread. This must be a synchronized operation; see the
      * notes for getCurrentThread()
      */
-    public void setCurrentThread(Thread thread) {
+    private void setCurrentThread(Thread thread) {
         mCurrentThread = thread;
     }
 

@@ -3,6 +3,7 @@ package com.xvzan.simplemoneytracker.ui.home;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -96,6 +97,7 @@ public class FastScroller extends LinearLayout {
         updateHandlePosition();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (ib_handle.getVisibility() == INVISIBLE)
