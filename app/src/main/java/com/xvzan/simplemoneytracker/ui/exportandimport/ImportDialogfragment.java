@@ -1,5 +1,6 @@
 package com.xvzan.simplemoneytracker.ui.exportandimport;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,24 +23,23 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 import io.realm.Realm;
 
 public class ImportDialogfragment extends DialogFragment {
 
-    File csvA;
-    File csvT;
-    TextView tva;
-    TextView tvt;
-    Button bti;
+    private File csvA;
+    private File csvT;
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.import_dialog_fragment, container);
-        tva = view.findViewById(R.id.tv_import_acc);
-        tvt = view.findViewById(R.id.tv_import_trans);
-        bti = view.findViewById(R.id.bt_import);
+        TextView tva = view.findViewById(R.id.tv_import_acc);
+        TextView tvt = view.findViewById(R.id.tv_import_trans);
+        Button bti = view.findViewById(R.id.bt_import);
         csvA = new File(getContext().getExternalFilesDir(null), "import" + File.separator + "accounts");
         csvT = new File(getContext().getExternalFilesDir(null), "import" + File.separator + "transactions");
         if (csvA.exists()) {
@@ -64,7 +64,7 @@ public class ImportDialogfragment extends DialogFragment {
     }
 
     private void importCSV() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         try (Realm realm = Realm.getDefaultInstance()) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(csvA));
@@ -82,6 +82,7 @@ public class ImportDialogfragment extends DialogFragment {
                     realm.commitTransaction();
                     s++;
                 }
+                assert listener != null;
                 listener.onAccountsEdited();
                 csvA.delete();
                 if (csvT.exists()) {
@@ -108,6 +109,6 @@ public class ImportDialogfragment extends DialogFragment {
             }
         }
         Toast.makeText(getContext(), "Imported", Toast.LENGTH_SHORT).show();
-        getDialog().dismiss();
+        Objects.requireNonNull(getDialog()).dismiss();
     }
 }

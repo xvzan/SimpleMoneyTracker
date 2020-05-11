@@ -1,5 +1,6 @@
 package com.xvzan.simplemoneytracker.ui.exportandimport;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.xvzan.simplemoneytracker.dbsettings.mTra;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Objects;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
@@ -26,16 +29,11 @@ import io.realm.Sort;
 
 public class ExportDialogFragment extends DialogFragment {
 
-    File csvA;
-    File csvT;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.export_dialog_gragment, container);
         TextView tvf = view.findViewById(R.id.tv_export_folder);
-        csvA = new File(getContext().getExternalFilesDir(null), "accounts.csv");
-        csvT = new File(getContext().getExternalFilesDir(null), "transactions.csv");
         tvf.setText("Output Folder: " + getContext().getExternalFilesDir(null).getAbsolutePath());
         Button bte = view.findViewById(R.id.bt_export);
         bte.setOnClickListener(new View.OnClickListener() {
@@ -48,13 +46,10 @@ public class ExportDialogFragment extends DialogFragment {
     }
 
     private void exportCSV() {
-        if (csvA.exists())
-            csvA.delete();
-        csvA = new File(getContext().getExternalFilesDir(null), "accounts");
-        if (csvT.exists())
-            csvT.delete();
-        csvT = new File(getContext().getExternalFilesDir(null), "transactions");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") String s_folder = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(Calendar.getInstance().getTime());
+        File csvA = new File(getContext().getExternalFilesDir(s_folder), "accounts");
+        File csvT = new File(getContext().getExternalFilesDir(s_folder), "transactions");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(csvA, true);
             StringBuilder stringBuilder = new StringBuilder();
@@ -94,6 +89,6 @@ public class ExportDialogFragment extends DialogFragment {
             e.printStackTrace();
         }
         Toast.makeText(getContext(), "Exported", Toast.LENGTH_SHORT).show();
-        getDialog().dismiss();
+        Objects.requireNonNull(getDialog()).dismiss();
     }
 }
