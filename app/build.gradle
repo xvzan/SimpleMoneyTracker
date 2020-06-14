@@ -8,8 +8,8 @@ android {
         applicationId "com.xvzan.simplemoneytracker"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 20200511
-        versionName "0.8.6"
+        versionCode 20200615
+        versionName "0.8.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

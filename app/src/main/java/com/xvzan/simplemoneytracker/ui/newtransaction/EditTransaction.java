@@ -145,6 +145,15 @@ public class EditTransaction extends Fragment {
         });
         note = root.findViewById(R.id.et_nt_note);
         note.setText(myTran.getmNote());
+        note.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        });
         Button ntbt = root.findViewById(R.id.bt_nt);
         ntbt.setOnClickListener(new View.OnClickListener() {
             @Override

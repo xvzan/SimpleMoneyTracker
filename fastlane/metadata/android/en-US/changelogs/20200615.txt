@@ -1,0 +1,2 @@
+0.8.7
+Fix:Auto hide inputmethod.
