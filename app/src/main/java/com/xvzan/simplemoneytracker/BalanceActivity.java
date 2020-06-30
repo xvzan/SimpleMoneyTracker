@@ -43,6 +43,7 @@ public class BalanceActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
 
         // Enable the Up button
+        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
         balances_rv = findViewById(R.id.recyclerview_balances);
