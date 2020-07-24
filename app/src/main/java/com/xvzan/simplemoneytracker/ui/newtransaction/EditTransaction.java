@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.xvzan.simplemoneytracker.MainActivity;
 import com.xvzan.simplemoneytracker.R;
 import com.xvzan.simplemoneytracker.dbsettings.mAccount;
 import com.xvzan.simplemoneytracker.dbsettings.mTra;
@@ -59,8 +60,8 @@ public class EditTransaction extends Fragment {
         final View root = inflater.inflate(R.layout.new_transaction_dialog, container, false);
         realminstance = Realm.getDefaultInstance();
         realminstance.beginTransaction();
-        myTran = realminstance.where(mTra.class).equalTo("editMe", true).findFirst();
-        myTran.meEdited();
+        myTran = ((MainActivity) requireActivity()).mTraToEdit;
+        ((MainActivity) requireActivity()).mTraToEdit = null;
         realminstance.commitTransaction();
         cld = Calendar.getInstance();
         aU = root.findViewById(R.id.spn_nt_aU);

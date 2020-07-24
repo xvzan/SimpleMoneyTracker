@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.xvzan.simplemoneytracker.MainActivity;
 import com.xvzan.simplemoneytracker.R;
 import com.xvzan.simplemoneytracker.dbsettings.mTra;
 
@@ -103,11 +104,7 @@ public class Adapter_Single extends RecyclerView.Adapter<Adapter_Single.SingleTr
         holder.tsEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try (Realm realm = Realm.getDefaultInstance()) {
-                    realm.beginTransaction();
-                    mTraList.get(position).setEditme();
-                    realm.commitTransaction();
-                }
+                ((MainActivity) mContext).mTraToEdit = mTraList.get(position);
                 Navigation.findNavController(v).navigate(R.id.nav_edit_tran);
             }
         });

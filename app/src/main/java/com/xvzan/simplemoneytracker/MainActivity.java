@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.xvzan.simplemoneytracker.dbsettings.mAccount;
+import com.xvzan.simplemoneytracker.dbsettings.mTra;
 import com.xvzan.simplemoneytracker.ui.addaccount.AddAccountDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.xvzan.simplemoneytracker.ui.exportandimport.ExportDialogFragment;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
     SharedPreferences sharedPref;
     SharedPreferences.Editor spEditor;
     boolean noEquity;
+    public mTra mTraToEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
