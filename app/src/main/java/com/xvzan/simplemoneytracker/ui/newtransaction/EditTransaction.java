@@ -76,7 +76,7 @@ public class EditTransaction extends Fragment {
             nameList.add(ma.getAname());
             typeList.add(ma.getAcct());
         }
-        ArrayAdapter<String> maaa = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, nameList);
+        ArrayAdapter<String> maaa = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, nameList);
         aU.setAdapter(maaa);
         aB.setAdapter(maaa);
         AdapterView.OnItemSelectedListener spln = new AdapterView.OnItemSelectedListener() {
@@ -101,7 +101,7 @@ public class EditTransaction extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
@@ -114,7 +114,7 @@ public class EditTransaction extends Fragment {
         dt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(getContext());
+                DatePickerDialog dpd = new DatePickerDialog(requireContext());
                 dpd.getDatePicker().init(cld.get(Calendar.YEAR), cld.get(Calendar.MONTH), cld.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
                     @Override
                     public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
@@ -150,7 +150,7 @@ public class EditTransaction extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }

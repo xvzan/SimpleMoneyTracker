@@ -13,19 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xvzan.simplemoneytracker.R;
-import com.xvzan.simplemoneytracker.dbsettings.mAccount;
 import com.xvzan.simplemoneytracker.ui.addaccount.AddAccountDialogFragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 
 public class ShareFragment extends Fragment implements StartDragListener{
 
     ItemTouchHelper touchHelper;
-    private View root;
     RecyclerView alvg;
     //AccountBarAdapter mAccountBarAdapter;
     //private OrderedRealmCollection<mAccount> mAList;
@@ -34,10 +30,10 @@ public class ShareFragment extends Fragment implements StartDragListener{
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_share, container, false);
+        View root = inflater.inflate(R.layout.fragment_share, container, false);
         realm = Realm.getDefaultInstance();
         //mAList = realm.where(mAccount.class).findAll();
-        alvg=root.findViewById(R.id.accRV);
+        alvg= root.findViewById(R.id.accRV);
         alvg.setLayoutManager(new LinearLayoutManager(getContext()));
         final LinearAdapter la = new LinearAdapter(getActivity(),this, realm);
         //先实例化Callback
@@ -56,7 +52,7 @@ public class ShareFragment extends Fragment implements StartDragListener{
             @Override
             public void onChildViewRemoved(View parent, View child) {
                 AddAccountDialogFragment.addAccountListener listener = (AddAccountDialogFragment.addAccountListener)getActivity();
-                listener.onAccountsEdited();
+                Objects.requireNonNull(listener).onAccountsEdited();
             }
         });
         Button aa = root.findViewById(R.id.buttonAddAccount);
@@ -64,7 +60,7 @@ public class ShareFragment extends Fragment implements StartDragListener{
             @Override
             public void onClick(View v) {
                 AddAccountDialogFragment adf=new AddAccountDialogFragment(la);
-                adf.show(getActivity().getSupportFragmentManager(),"add_account_dialog");
+                adf.show(requireActivity().getSupportFragmentManager(),"add_account_dialog");
             }
         });
         return root;

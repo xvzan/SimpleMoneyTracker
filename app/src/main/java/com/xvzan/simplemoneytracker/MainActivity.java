@@ -1,5 +1,6 @@
 package com.xvzan.simplemoneytracker;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,6 +29,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.realm.Realm;
 import io.realm.Sort;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navSetUP();
     }
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
         menuItem.setIcon(R.drawable.ic_all_inclusive_black_24dp);
         menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
                 spEditor.putString("nowAccount", "");
                 spEditor.commit();
                 //nowAccount = item.getTitle().toString();
@@ -103,8 +105,8 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
                     m.setIcon(R.drawable.ic_account_balance_wallet_black_24dp);
                     m.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            spEditor.putString("nowAccount", item.getTitle().toString());
+                        public boolean onMenuItemClick(@NonNull MenuItem item) {
+                            spEditor.putString("nowAccount", Objects.requireNonNull(item.getTitle()).toString());
                             spEditor.commit();
                             //nowAccount = item.getTitle().toString();
                             navController.navigate(R.id.nav_empty);//GTMD曲线救国
@@ -132,8 +134,8 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
                 }
                 m.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        spEditor.putString("nowAccount", item.getTitle().toString());
+                    public boolean onMenuItemClick(@NonNull MenuItem item) {
+                        spEditor.putString("nowAccount", Objects.requireNonNull(item.getTitle()).toString());
                         spEditor.commit();
                         navController.navigate(R.id.nav_empty);//GTMD曲线救国
                         navController.navigate(R.id.action_nav_empty_to_nav_home);//GTMD曲线救国
@@ -166,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements AddAccountDialogF
         reItems();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
