@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:contentDescription="@string/drag_handle"
-        android:tint="?attr/colorControlNormal"
         android:visibility="invisible"
-        app:srcCompat="@drawable/ic_swap_vertical_circle_grey_36dp" />
+        app:srcCompat="@drawable/ic_swap_vertical_circle_grey_36dp"
+        app:tint="?attr/colorControlNormal" />
 </LinearLayout>

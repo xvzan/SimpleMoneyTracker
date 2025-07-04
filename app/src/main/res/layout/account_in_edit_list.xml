@@ -16,8 +16,8 @@
         android:paddingTop="9dp"
         android:paddingBottom="9dp"
         android:scaleType="fitStart"
-        android:tint="?attr/colorControlNormal"
-        app:srcCompat="@drawable/ic_drag_handle_black_24dp" />
+        app:srcCompat="@drawable/ic_drag_handle_black_24dp"
+        app:tint="?attr/colorControlNormal" />
 
     <TextView
         android:id="@+id/textAccInEditList"
@@ -35,7 +35,7 @@
         android:layout_weight="9"
         android:contentDescription="@string/edit"
         android:src="@drawable/ic_mode_edit_black_24dp"
-        android:tint="?attr/colorControlNormal" />
+        app:tint="?attr/colorControlNormal" />
 
     <ImageButton
         android:id="@+id/buttonDeleteAccount"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="9"
         android:contentDescription="@string/delete"
-        android:tint="?attr/colorControlNormal"
-        app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+        app:srcCompat="@drawable/ic_delete_forever_black_24dp"
+        app:tint="?attr/colorControlNormal" />
 
 </LinearLayout>
